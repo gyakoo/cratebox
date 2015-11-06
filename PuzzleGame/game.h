@@ -1,5 +1,9 @@
 #pragma once
 #include <common.h>
+#include <gametimer.h>
+#include <board.h>
+#include <player.h>
+#include <fsm.h>
 
 namespace PuzzleGame
 {
@@ -7,29 +11,17 @@ namespace PuzzleGame
   class Game : public IKeyListener
   {
   public:
-    enum GameState { STATE_NONE, STATE_PLAYING };
-    enum GameEvent { EVENT_PLAY };
-  
-  public:
     Game(std::shared_ptr<Common> comm);
     ~Game();
 
     void MainLoop();
     virtual void OnKeyDown(int code);
-    void RaiseEvent( GameEvent evt );
+    std::shared_ptr<Common> GetCommon(){ return m_common; }
 
   private:
-    void StateLeave(GameState st);
-    void StateEnter(GameState st);
-    void StateUpdate(GameState st);
-    void StateDraw(GameState st);
-
-  private:
-    GameTimer m_timer;
-    GameState m_curState;
+    FSMManager::StateHandle m_hStartingState;
     std::shared_ptr<Common> m_common;
-    std::shared_ptr<Board> m_board;
-    std::shared_ptr<Player> m_player;
+    std::shared_ptr<FSMManager> m_fsm;
   };
 
 };
