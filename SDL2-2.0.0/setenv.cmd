@@ -1,0 +1,1 @@
+setx /M SDL_SDK %CD%
