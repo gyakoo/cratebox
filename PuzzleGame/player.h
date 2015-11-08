@@ -4,19 +4,25 @@
 
 namespace PuzzleGame
 {
-  class Player
+  class Player : public IKeyListener
   {
   public:
     Player(std::shared_ptr<Common> comm, std::shared_ptr<Board> board);
+    ~Player();
+    void Update();
+    void Draw();
 
-    void RotateLeft();
-    void RotateRight();
-    void HitOk(int x, int y);
-    void HitWrong(int x, int y);
+    virtual void OnKeyDown(int scancode);
 
   private:
+    enum LogoTileType { LTT_R, LTT_G, LTT_B, LTT_Y };
+    void Move(int dx, int dy);
+    template<bool LEFT> void Rotate();
+
+    uint32_t m_top, m_left;
     std::shared_ptr<Common> m_common;
     std::shared_ptr<Board> m_board;
+    std::array<LogoTileType,4> m_logoTiles;
   };
 
 };

@@ -26,8 +26,7 @@ namespace PuzzleGame
 
   enum PuzzleGameConstants
   {
-    LOGO_N = 4,
-    BOARD_DIM_DEFAULT = 18
+    BOARD_DIM_DEFAULT = 6
   };
 
   class StringUtils
@@ -109,7 +108,8 @@ namespace PuzzleGame
     void EndLoop();
 
     void FillRect( const Rect& rect, const Color& color );
-    
+    void DrawRect( const Rect& rect, const Color& color );
+
     uint32_t GetWidth();
     uint32_t GetHeight();
     void AddKeyListener(IKeyListener* kl );
@@ -153,8 +153,8 @@ namespace PuzzleGame
 
     void SetText(const std::string& text);
     void SetColor(const Color& color);
-    void Render(const Rect& rect);
-    void Render(int x, int y);
+    void Draw(const Rect& rect);
+    void Draw(int x, int y);
 
   private:
     friend class Common;

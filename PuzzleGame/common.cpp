@@ -87,7 +87,13 @@ void Common::EndLoop()
 void Common::FillRect( const Rect& rect, const Color& color )
 {
   SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
-  SDL_RenderFillRect( m_sdlRenderer, (const SDL_Rect*)&rect );
+  SDL_RenderFillRect( m_sdlRenderer, reinterpret_cast<const SDL_Rect*>(&rect) );
+}
+
+void Common::DrawRect( const Rect& rect, const Color& color )
+{
+  SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
+  SDL_RenderDrawRect( m_sdlRenderer, reinterpret_cast<const SDL_Rect*>(&rect) );
 }
 
 uint32_t Common::GetWidth()
@@ -205,16 +211,16 @@ void Text::_DestroyText()
   }
 }
 
-void Text::Render(const Rect& rect)
+void Text::Draw(const Rect& rect)
 {
   SDL_RenderCopy(m_font->m_common->GetRenderer(), m_textTexture,
     nullptr, reinterpret_cast<const SDL_Rect*>(&rect));
 }
 
-void Text::Render(int x, int y)
+void Text::Draw(int x, int y)
 {
   Rect r(x, y, m_width, m_height);
-  Render(r);
+  Draw(r);
 }
 
   std::string StringUtils::From(int i)
