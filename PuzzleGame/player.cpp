@@ -7,13 +7,23 @@ namespace PuzzleGame
   {
   }
 
-  void Player::DoAction( ActionType at )
+  void Player::RotateLeft()
   {
-    switch (at)
-    {
-    case ROTATE_LEFT: m_board->RotateLeft(); break;
-    case ROTATE_RIGHT: m_board->RotateRight(); break;
-    }
+    m_board->RotateLeft();
   }
 
+  void Player::RotateRight()
+  {
+    m_board->RotateRight();
+  }
+
+  void Player::HitOk(int x, int y)
+  {
+
+  }
+
+  void Player::HitWrong(int x, int y)
+  {
+
+  }
 };

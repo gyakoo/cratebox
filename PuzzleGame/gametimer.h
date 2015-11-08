@@ -6,16 +6,23 @@ namespace PuzzleGame
   class GameTimer
   {
   public:
-    GameTimer(std::shared_ptr<Common> comm, std::chrono::milliseconds period);
+    GameTimer(std::shared_ptr<Common> comm);
 
-    void SetPeriod(std::chrono::milliseconds period);
-    bool Update();
+    void AddCallback( std::chrono::milliseconds period, std::function<void ()> func);
+    void Update();
+    void Reset();
 
   private:
+    struct Callback
+    {
+      std::chrono::milliseconds m_period;
+      std::chrono::milliseconds m_accumulated;
+      std::function<void (void)> m_periodFunc;
+    };
+
     uint32_t m_lastTicks;
     std::shared_ptr<Common> m_common;
-    std::chrono::milliseconds m_period;
-    std::chrono::milliseconds m_accumulated;
+    std::vector<Callback> m_callbacks;
   };
 
 };

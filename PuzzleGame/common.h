@@ -27,7 +27,15 @@ namespace PuzzleGame
   enum PuzzleGameConstants
   {
     LOGO_N = 4,
-    BOARD_DIM_DEFAULT = 14
+    BOARD_DIM_DEFAULT = 18
+  };
+
+  class StringUtils
+  {
+  public:
+    static std::string From(int i);
+    static std::string From(float f);
+    static std::string Format(const char* format, ...);
   };
 
   struct Rect
@@ -61,6 +69,8 @@ namespace PuzzleGame
     Color(uint8_t r, uint8_t g, uint8_t b, uint8_t a)
       : r(r), g(g), b(b), a(a)
     {}
+    bool operator ==(const Color& rhs){ return r==rhs.r && g==rhs.g && b==rhs.b && a==rhs.a; }
+    bool operator !=(const Color& rhs){ return !operator ==(rhs); }
   };
 
   namespace Colors
@@ -87,6 +97,9 @@ namespace PuzzleGame
     virtual void OnKeyUp(int scancode) {};
   };
 
+  class Font;
+  class Text;
+
   class Common
   {
   public:  
@@ -96,18 +109,64 @@ namespace PuzzleGame
     void EndLoop();
 
     void FillRect( const Rect& rect, const Color& color );
-
+    
     uint32_t GetWidth();
     uint32_t GetHeight();
     void AddKeyListener(IKeyListener* kl );
     void RemoveKeyListener( IKeyListener* kl );
     void PostQuitEvent();
     uint32_t GetTimerTicks();
+
+    SDL_Renderer* GetRenderer(){ return m_sdlRenderer; }
+    SDL_Window* GetWindow(){ return m_sdlWindow; }
+
   protected:
     SDL_Window* m_sdlWindow;
-    SDL_Renderer* m_sdlRenderer;
+    SDL_Renderer* m_sdlRenderer;    
     uint32_t m_width, m_height;
     std::vector< IKeyListener* > m_keyListeners; // todo: change to use shared_ptr but gives me destruction issues for Player deriving from IKeyListener
+  };
+
+  class Font
+  {
+  public:
+    Font( std::shared_ptr<Common> comm, const std::string& fontName, int fontSize );
+    ~Font();
+    void SetSize(int fontSize);
+
+  private:
+    friend class Text;
+    void _CreateFont();
+
+    std::shared_ptr<Common> m_common;
+    TTF_Font* m_ttfFont;
+    std::string m_fontName;
+    int m_fontSize;
+  };
+
+  class Text
+  {
+  public:
+    Text(std::shared_ptr<Font> font
+      , const std::string& text="", const Color& color=Colors::WHITE);
+    ~Text();
+
+    void SetText(const std::string& text);
+    void SetColor(const Color& color);
+    void Render(const Rect& rect);
+    void Render(int x, int y);
+
+  private:
+    friend class Common;
+    void _CreateText();
+    void _DestroyText();
+
+    SDL_Texture* m_textTexture;
+    std::shared_ptr<Font> m_font;
+    std::string m_text;
+    int m_width;
+    int m_height;
+    Color m_color;
   };
 
 }; // ns

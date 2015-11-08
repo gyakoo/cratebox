@@ -3,31 +3,42 @@
 namespace PuzzleGame
 {
 
-GameTimer::GameTimer(std::shared_ptr<Common> comm, std::chrono::milliseconds period)
-  : m_common(comm), m_period(period), m_accumulated(0)
+GameTimer::GameTimer(std::shared_ptr<Common> comm)
+  : m_common(comm)
 {
   m_lastTicks = m_common->GetTimerTicks();
 }
 
-void GameTimer::SetPeriod(std::chrono::milliseconds period)
+void GameTimer::AddCallback( std::chrono::milliseconds period, std::function<void ()> func)
 {
-  m_period = period;
-  m_accumulated = std::chrono::milliseconds(0);
+  Callback cb;
+  cb.m_accumulated = std::chrono::milliseconds(0);
+  cb.m_period = period;
+  cb.m_periodFunc = func;
+  m_callbacks.push_back(cb);
 }
 
-bool GameTimer::Update()
+void GameTimer::Reset()
+{
+  m_callbacks.clear();
+}
+
+void GameTimer::Update()
 {
   auto curTicks = m_common->GetTimerTicks();
   auto elapsedTicks = curTicks - m_lastTicks;
   m_lastTicks = curTicks;
-  m_accumulated += std::chrono::milliseconds(elapsedTicks);
-  bool ret = false;
-  if ( m_accumulated >= m_period )
+  
+  std::for_each(m_callbacks.begin(), m_callbacks.end(), [elapsedTicks](Callback& cb)
   {
-    ret = true;
-    m_accumulated -= m_period;
-  }
-  return ret;
+    cb.m_accumulated += std::chrono::milliseconds(elapsedTicks);
+    if ( cb.m_accumulated >= cb.m_period )
+    {
+      cb.m_accumulated -= cb.m_period;
+      if ( cb.m_periodFunc )
+        cb.m_periodFunc();
+    } 
+  });
 }
 
 };

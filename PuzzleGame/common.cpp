@@ -123,4 +123,121 @@ uint32_t Common::GetTimerTicks()
   return SDL_GetTicks();
 }
 
+Font::Font( std::shared_ptr<Common> comm, const std::string& fontName, int fontSize )
+  : m_common(comm), m_fontName(fontName), m_fontSize(fontSize)
+{
+  _CreateFont();
+}
+
+Font::~Font()
+{
+  TTF_CloseFont(m_ttfFont);
+}
+
+void Font::SetSize(int fontSize)
+{
+  if ( fontSize != m_fontSize )
+  {
+    m_fontSize = fontSize;
+    _CreateFont();
+  }
+}
+
+void Font::_CreateFont()
+{
+  m_ttfFont = TTF_OpenFont(m_fontName.c_str(), m_fontSize);
+  if ( !m_ttfFont )
+    throw std::exception("Cannot create font");
+}
+
+Text::Text(std::shared_ptr<Font> font,const std::string& text, const Color& color)
+  : m_text(text), m_color(color), m_textTexture(nullptr), m_font(font)
+{
+  _CreateText();
+}
+
+Text::~Text()
+{
+  _DestroyText();
+}
+
+void Text::SetText(const std::string& text)
+{
+  if ( m_text != text )
+  {
+    m_text = text;
+    _CreateText();
+  }
+}
+void Text::SetColor(const Color& color)
+{
+  if ( m_color != color )
+  {
+    m_color = color;
+    _CreateText();
+  }
+}
+
+void Text::_CreateText()
+{
+  if ( m_text.empty() )
+    return;
+  _DestroyText();
+  SDL_Surface* tmpSurf = TTF_RenderText_Solid(m_font->m_ttfFont, m_text.c_str(), 
+    *reinterpret_cast<SDL_Color*>(&m_color));
+  if ( !tmpSurf )
+    throw std::exception( "cannot create surface for text" );
+  m_width = tmpSurf->w;
+  m_height = tmpSurf->h;
+  m_textTexture = SDL_CreateTextureFromSurface( m_font->m_common->GetRenderer(), tmpSurf );
+  if ( !m_textTexture )
+    throw std::exception( "cannot create text texture" );
+
+  SDL_FreeSurface(tmpSurf);
+}
+
+void Text::_DestroyText()
+{
+  if ( m_textTexture )
+  {
+    SDL_DestroyTexture(m_textTexture);
+    m_textTexture = nullptr;
+  }
+}
+
+void Text::Render(const Rect& rect)
+{
+  SDL_RenderCopy(m_font->m_common->GetRenderer(), m_textTexture,
+    nullptr, reinterpret_cast<const SDL_Rect*>(&rect));
+}
+
+void Text::Render(int x, int y)
+{
+  Rect r(x, y, m_width, m_height);
+  Render(r);
+}
+
+  std::string StringUtils::From(int i)
+  {
+    std::array<char,512> s;
+    _itoa_s(i,s.data(),s.size(),10);
+    return std::string(s.data());
+  }
+  
+  std::string StringUtils::From(float f)
+  {
+    std::array<char,512> s;
+    sprintf_s(s.data(), s.size(),"%g",f);
+    return std::string(s.data());
+  }
+
+  std::string StringUtils::Format(const char* format, ...)
+  {
+    std::array<char,512> s;
+    va_list args;
+    va_start( args, format );
+    vsprintf_s(s.data(),s.size(), format, args );
+    va_end( args );
+    return std::string(s.data());
+  }
 };

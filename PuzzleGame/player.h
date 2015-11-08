@@ -7,10 +7,12 @@ namespace PuzzleGame
   class Player
   {
   public:
-    enum ActionType { ROTATE_LEFT, ROTATE_RIGHT };
     Player(std::shared_ptr<Common> comm, std::shared_ptr<Board> board);
 
-    void DoAction( ActionType at );
+    void RotateLeft();
+    void RotateRight();
+    void HitOk(int x, int y);
+    void HitWrong(int x, int y);
 
   private:
     std::shared_ptr<Common> m_common;
