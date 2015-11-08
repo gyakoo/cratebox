@@ -11,6 +11,8 @@ namespace PuzzleGame
     m_logoTiles[1] = LTT_G;
     m_logoTiles[2] = LTT_Y;
     m_logoTiles[3] = LTT_B;
+    m_board->SetTimeUntilNext(1);
+    m_board->OnPlayerAdvanced( m_left, m_top );
   }
 
   Player::~Player()
@@ -61,8 +63,37 @@ namespace PuzzleGame
 
   void Player::Move(int dx, int dy)
   {
-    m_left += dx;
-    m_top += dy;
+    const int nx=m_left + dx;
+    const int ny=m_top + dy;
+    if ( CanMoveTo(nx,ny) )
+    {
+      m_left = nx;
+      m_top = ny;
+      m_board->OnPlayerAdvanced( m_left, m_top );
+    }
+  }
+
+  bool Player::CanMoveTo(int left, int top)
+  {
+    // out of board?
+    const int dim = (int)m_board->GetDimension();
+    if ( left < 0 || left >= dim ||
+      top < 0 || top >= dim )
+      return false;
+
+    // there's a mismatch piece in the way
+    const uint32_t l=(uint32_t)left;
+    const uint32_t t=(uint32_t)top;
+    std::array<Board::Tile,4> dstTiles = { 
+      m_board->GetTile(l,t), m_board->GetTile(l+1,t),
+      m_board->GetTile(l+1,t+1), m_board->GetTile(l,t+1) };
+    for (auto i = 0; i < dstTiles.size(); ++i )
+    {
+      auto& t = dstTiles[i];
+      if ( t.m_type == Board::TT_PIECE && t.m_data != (uint32_t)m_logoTiles[i] ) 
+        return false;
+    }
+    return true;
   }
 
   template<bool LEFT>
@@ -72,5 +103,6 @@ namespace PuzzleGame
       std::rotate( m_logoTiles.begin(), m_logoTiles.begin()+1, m_logoTiles.end() );
     else
       std::rotate( m_logoTiles.rbegin(), m_logoTiles.rbegin()+1, m_logoTiles.rend() );
+    m_board->OnPlayerAdvanced( m_left, m_top );
   }
 };

@@ -9,13 +9,20 @@ GameTimer::GameTimer(std::shared_ptr<Common> comm)
   m_lastTicks = m_common->GetTimerTicks();
 }
 
-void GameTimer::AddCallback( std::chrono::milliseconds period, std::function<void ()> func)
+uint32_t GameTimer::AddCallback( std::chrono::milliseconds period, std::function<void ()> func)
 {
   Callback cb;
   cb.m_accumulated = std::chrono::milliseconds(0);
   cb.m_period = period;
   cb.m_periodFunc = func;
   m_callbacks.push_back(cb);
+  return m_callbacks.size()-1;
+}
+
+void GameTimer::RemoveCallback(uint32_t cbIndex)
+{
+  if ( cbIndex < m_callbacks.size() )
+    m_callbacks.erase( m_callbacks.begin() + cbIndex );
 }
 
 void GameTimer::Reset()

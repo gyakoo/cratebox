@@ -8,7 +8,8 @@ namespace PuzzleGame
   public:
     GameTimer(std::shared_ptr<Common> comm);
 
-    void AddCallback( std::chrono::milliseconds period, std::function<void ()> func);
+    uint32_t AddCallback( std::chrono::milliseconds period, std::function<void ()> func);
+    void RemoveCallback(uint32_t cbIndex);
     void Update();
     void Reset();
 
