@@ -27,5 +27,4 @@ namespace PuzzleGame
     std::shared_ptr<Board> m_board;
     std::array<LogoTileType,4> m_logoTiles;
   };
-
 };

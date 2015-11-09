@@ -28,7 +28,7 @@ namespace PuzzleGame
 
   enum PuzzleGameConstants
   {
-    BOARD_DIM_DEFAULT = 6
+    BOARD_DIM_DEFAULT = 5
   };
 
   class StringUtils
@@ -57,8 +57,8 @@ namespace PuzzleGame
       const auto hy = y/2;
       this->x += hx;
       this->y += hy;
-      width -= hx;
-      height -= hy;
+      width -= x;
+      height -= y;
     }
   };
 

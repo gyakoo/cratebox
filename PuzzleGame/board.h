@@ -14,6 +14,8 @@ namespace PuzzleGame
       Tile( TileType type, uint32_t time, uint32_t data=0)
         : m_type(type), m_timeCreate(time), m_data(data)
       {}
+      bool IsNone(){return m_type==TT_NONE;}
+      bool IsPiece(){ return m_type==TT_PIECE;}
 
       TileType m_type;
       uint32_t m_data;
@@ -37,6 +39,7 @@ namespace PuzzleGame
     void CreatePiece(uint32_t plLeft, uint32_t plTop);
     bool IsPartOfPlayerLogo(uint32_t x, uint32_t y, uint32_t plLeft, uint32_t plTop);
     Tile RandomTile(uint32_t x, uint32_t y);
+    void OnNoMoreSpaceForNewPiece();
 
   private:
     std::shared_ptr<Common> m_common;
@@ -50,5 +53,6 @@ namespace PuzzleGame
     uint32_t m_timeUntilNext;
     std::unique_ptr<Text> m_label;
     std::function<uint32_t (void)>  m_diceColor;
+    std::function<bool (void)> m_diceBool;
   };
 };
