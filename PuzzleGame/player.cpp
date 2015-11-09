@@ -57,7 +57,10 @@ namespace PuzzleGame
       default: color.a = 0;
       }
       if ( color.a )
+      {
+        rects[i].Deflate(6,6);
         m_common->FillRect( rects[i], color );
+      }
     }
   }
 
@@ -69,8 +72,36 @@ namespace PuzzleGame
     {
       m_left = nx;
       m_top = ny;
+      MatchPieces();
       m_board->OnPlayerAdvanced( m_left, m_top );
     }
+  }
+
+  void Player::MatchPieces()
+  {
+    std::array<Board::Tile,4> dstTiles;
+    GetOverlappingPieces(m_left, m_top, dstTiles);
+    std::array<std::pair<uint32_t,uint32_t>,4> positions={
+      std::make_pair(m_left,m_top), std::make_pair(m_left+1,m_top),
+      std::make_pair(m_left+1,m_top+1), std::make_pair(m_left,m_top+1)};
+    for (auto i = 0u; i < dstTiles.size(); ++i )
+    {
+      auto& t = dstTiles[i];
+      if ( t.m_type == Board::TT_PIECE && 
+        t.m_data == (uint32_t)m_logoTiles[i] )
+      {
+        auto& pos = positions[i];
+        m_board->MatchPiece(pos.first, pos.second);
+      }
+    }
+  }
+
+  void Player::GetOverlappingPieces(uint32_t left, uint32_t top, std::array<Board::Tile,4>& outPieces)
+  {
+    outPieces[0] = m_board->GetTile(left,top);
+    outPieces[1] = m_board->GetTile(left+1,top);
+    outPieces[2] = m_board->GetTile(left+1,top+1);
+    outPieces[3] = m_board->GetTile(left,top+1);
   }
 
   bool Player::CanMoveTo(int left, int top)
@@ -81,16 +112,14 @@ namespace PuzzleGame
       top < 0 || top >= dim )
       return false;
 
-    // there's a mismatch piece in the way
-    const uint32_t l=(uint32_t)left;
-    const uint32_t t=(uint32_t)top;
-    std::array<Board::Tile,4> dstTiles = { 
-      m_board->GetTile(l,t), m_board->GetTile(l+1,t),
-      m_board->GetTile(l+1,t+1), m_board->GetTile(l,t+1) };
-    for (auto i = 0; i < dstTiles.size(); ++i )
+    // is there a mismatch piece in the way?
+    std::array<Board::Tile,4> dstTiles;
+    GetOverlappingPieces((uint32_t)left, (uint32_t)top, dstTiles);
+    for (auto i = 0u; i < dstTiles.size(); ++i )
     {
       auto& t = dstTiles[i];
-      if ( t.m_type == Board::TT_PIECE && t.m_data != (uint32_t)m_logoTiles[i] ) 
+      if ( t.m_type == Board::TT_PIECE && 
+        t.m_data != (uint32_t)m_logoTiles[i] ) 
         return false;
     }
     return true;

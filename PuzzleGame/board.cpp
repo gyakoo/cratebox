@@ -15,6 +15,7 @@ namespace PuzzleGame
       std::default_random_engine  generator;
       std::uniform_int_distribution<uint32_t> distri(0,3);
       m_diceColor = std::bind( distri, generator );
+      m_label = std::unique_ptr<Text>(new Text(m_common->GetDefaultFont(), "hey", Colors::YELLOW));
     }
 
     void Board::Update()
@@ -40,6 +41,7 @@ namespace PuzzleGame
           r.x += m_tileWidth;
         }
       }
+      m_label->Draw(10,10);
     }
 
     void Board::DrawTile(const Tile& t, const Rect& r)
@@ -50,7 +52,7 @@ namespace PuzzleGame
       dr.Deflate(6,6);
 
       Color c(0,0,0,0);
-      static std::array<Color,4> s_colors={Colors::MSRED, Colors::MSGREEN, Colors::YELLOW, Colors::MSBLUE };
+      static std::array<Color,4> s_colors={Colors::MSRED, Colors::MSGREEN, Colors::MSYELLOW, Colors::MSBLUE };
       switch ( t.m_type )
       {
       case TT_PIECE: c=s_colors[ t.m_data ]; break;
@@ -86,6 +88,7 @@ namespace PuzzleGame
         m_timeUntilNext = 3;
         CreatePiece(plLeft, plTop);
       }
+      m_label->SetText( StringUtils::From((int)m_timeUntilNext) );
     }
 
     void Board::CreatePiece(uint32_t plLeft, uint32_t plTop)
@@ -119,5 +122,10 @@ namespace PuzzleGame
     Board::Tile Board::RandomTile(uint32_t x, uint32_t y)
     {
       return Tile(TT_PIECE, m_timeStamp, m_diceColor());    
+    }
+
+    void Board::MatchPiece(uint32_t x, uint32_t y)
+    {
+      m_tiles[y*m_dim+x].m_type = TT_NONE;
     }
 };

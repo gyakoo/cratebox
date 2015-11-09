@@ -30,6 +30,8 @@ namespace PuzzleGame
     void OnPlayerAdvanced(uint32_t plLeft, uint32_t plTop);
     uint32_t GetTimeStamp(){ return m_timeStamp; }
     void SetTimeUntilNext(uint32_t tun){ m_timeUntilNext=tun; } 
+    void MatchPiece(uint32_t x, uint32_t y);
+
   private:
     void DrawTile(const Tile& t, const Rect& r);
     void CreatePiece(uint32_t plLeft, uint32_t plTop);
@@ -46,6 +48,7 @@ namespace PuzzleGame
     uint32_t m_borderVert;
     uint32_t m_timeStamp;
     uint32_t m_timeUntilNext;
+    std::unique_ptr<Text> m_label;
     std::function<uint32_t (void)>  m_diceColor;
   };
 };

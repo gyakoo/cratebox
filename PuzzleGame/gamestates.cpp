@@ -15,7 +15,6 @@ namespace PuzzleGame
     m_player = std::unique_ptr<Player>(new Player(m_common, m_board));
     //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
     m_font = std::make_shared<Font>(m_common, "OpenSans-Bold.ttf", 24);
-    m_label = std::unique_ptr<Text>(new Text(m_font,"Hello world!",Colors::MSBLUE));
   }
 
   void GameStatePlaying::OnUpdate()
@@ -25,7 +24,6 @@ namespace PuzzleGame
 
     m_board->Draw();
     m_player->Draw();
-    m_label->Draw( 10, 10 );
   }
 
   void GameStatePlaying::OnExit()

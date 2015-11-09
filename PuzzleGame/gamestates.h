@@ -26,7 +26,6 @@ namespace PuzzleGame
     std::shared_ptr<Board> m_board;
     std::unique_ptr<Player> m_player;
     std::shared_ptr<Font> m_font;
-    std::unique_ptr<Text> m_label;
   };
 
 };

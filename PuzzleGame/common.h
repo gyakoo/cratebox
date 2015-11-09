@@ -121,12 +121,13 @@ namespace PuzzleGame
 
     SDL_Renderer* GetRenderer(){ return m_sdlRenderer; }
     SDL_Window* GetWindow(){ return m_sdlWindow; }
-
+    std::shared_ptr<Font> GetDefaultFont(){ return m_defaultFont; }
   protected:
     SDL_Window* m_sdlWindow;
     SDL_Renderer* m_sdlRenderer;    
     uint32_t m_width, m_height;
     std::vector< IKeyListener* > m_keyListeners; // todo: change to use shared_ptr but gives me destruction issues for Player deriving from IKeyListener
+    std::shared_ptr<Font> m_defaultFont;
   };
 
   class Font
