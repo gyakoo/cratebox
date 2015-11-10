@@ -23,7 +23,7 @@ namespace PuzzleGame
     };
     
   public:
-    Board(std::shared_ptr<Common> comm, uint32_t dimension);
+    Board(std::shared_ptr<Common> comm, uint32_t twidth, uint32_t theight, uint32_t dimension);
     void Update();
     void Draw();
     Tile& GetTile(uint32_t x, uint32_t y);
@@ -36,6 +36,7 @@ namespace PuzzleGame
 
   private:
     void DrawTile(const Tile& t, const Rect& r);
+    void DrawGrid();
     void CreatePiece(uint32_t plLeft, uint32_t plTop);
     bool IsPartOfPlayerLogo(uint32_t x, uint32_t y, uint32_t plLeft, uint32_t plTop);
     Tile RandomTile(uint32_t x, uint32_t y);

@@ -2,13 +2,14 @@
 
 namespace PuzzleGame
 {
-  Board::Board(std::shared_ptr<Common> comm, uint32_t dimension)
+  Board::Board(std::shared_ptr<Common> comm, uint32_t dimension, uint32_t twidth, uint32_t theight)
       : m_common(comm), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(3)
+      , m_tileWidth(twidth), m_tileHeight(theight)
   {
     if ( dimension <= 2 )
       throw std::exception("Invalid board dimension, has to be >2");
-    m_tileWidth = m_common->GetWidth() / dimension;
-    m_tileHeight = m_common->GetHeight() / dimension;
+    //m_tileWidth = m_common->GetWidth() / dimension;
+    //m_tileHeight = m_common->GetHeight() / dimension;
     m_borderHoriz = (m_common->GetWidth() - ( m_tileWidth * m_dim )) / 2;
     m_borderVert = (m_common->GetHeight() - ( m_tileHeight * m_dim ) ) / 2;
     m_tiles.resize( dimension * dimension );
@@ -25,6 +26,7 @@ namespace PuzzleGame
 
   void Board::Draw()
   {
+    DrawGrid();
     Rect r(m_borderHoriz, m_borderVert, m_tileWidth, m_tileHeight);
     auto x = 0u;
     for ( auto t : m_tiles )
@@ -45,16 +47,29 @@ namespace PuzzleGame
     m_label->Draw(10,10);
   }
 
+  void Board::DrawGrid()
+  {
+    uint32_t x0=m_borderHoriz;
+    uint32_t y1=m_borderVert+m_tileHeight*m_dim;
+    for (uint32_t x = 0; x <= m_dim; ++x, x0+=m_tileWidth)
+      m_common->DrawLine( x0, m_borderVert, x0, y1, Colors::WHITE );
+
+    uint32_t y0=m_borderVert;
+    uint32_t x1=m_borderHoriz+m_tileWidth*m_dim;
+    for (uint32_t y = 0; y <= m_dim; ++y, y0+=m_tileHeight)
+      m_common->DrawLine( m_borderHoriz, y0, x1, y0, Colors::WHITE );
+  }
+
   void Board::DrawTile(const Tile& t, const Rect& r)
   {
     static std::array<Color,4> s_colors={
       Colors::MSRED, Colors::MSGREEN, 
       Colors::MSYELLOW, Colors::MSBLUE };
     Rect dr=r;
-    m_common->DrawRect( r, Colors::WHITE ); 
+    //m_common->DrawRect( r, Colors::WHITE ); 
 
-    auto l = 6;
-    dr.Deflate(l,l);
+    dr.Translate(1,1);
+    dr.Deflate(7,7);
 
     Color c(0,0,0,0);
     switch ( t.m_type )

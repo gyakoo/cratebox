@@ -51,6 +51,12 @@ namespace PuzzleGame
       : x(x), y(y), width(w), height(h)
     {}
 
+    void Translate(int dx, int dy)
+    {
+      x+=dx;
+      y+=dy;
+    }
+
     void Deflate(int x, int y)
     {
       const auto hx = x/2;
@@ -111,6 +117,7 @@ namespace PuzzleGame
 
     void FillRect( const Rect& rect, const Color& color );
     void DrawRect( const Rect& rect, const Color& color );
+    void DrawLine( uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, const Color& color );
 
     uint32_t GetWidth();
     uint32_t GetHeight();

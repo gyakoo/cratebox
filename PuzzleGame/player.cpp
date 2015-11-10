@@ -58,7 +58,8 @@ namespace PuzzleGame
       }
       if ( color.a )
       {
-        rects[i].Deflate(6,6);
+        rects[i].Translate(1,1);
+        rects[i].Deflate(7,7);
         m_common->FillRect( rects[i], color );
       }
     }
@@ -108,8 +109,8 @@ namespace PuzzleGame
   {
     // out of board?
     const int dim = (int)m_board->GetDimension();
-    if ( left < 0 || left >= dim ||
-      top < 0 || top >= dim )
+    if ( left < 0 || left >= dim-1 ||
+      top < 0 || top >= dim-1 )
       return false;
 
     // is there a mismatch piece in the way?

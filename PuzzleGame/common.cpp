@@ -98,6 +98,12 @@ void Common::DrawRect( const Rect& rect, const Color& color )
   SDL_RenderDrawRect( m_sdlRenderer, reinterpret_cast<const SDL_Rect*>(&rect) );
 }
 
+void Common::DrawLine( uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, const Color& color )
+{
+  SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
+  SDL_RenderDrawLine(m_sdlRenderer, (int)x0, (int)y0, (int)x1, (int)y1 );
+}
+
 uint32_t Common::GetWidth()
 {
   return m_width;
