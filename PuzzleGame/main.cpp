@@ -4,7 +4,7 @@
 int CALLBACK WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
   using namespace PuzzleGame;
-  auto comm = std::make_shared<Common>( 1024, 768, "Puzzle Game", false );
+  auto comm = std::make_shared<Common>( 800, 600, "Puzzle Game", false );
   Game game(comm);
   game.MainLoop();
   

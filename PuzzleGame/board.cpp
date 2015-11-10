@@ -3,7 +3,7 @@
 namespace PuzzleGame
 {
   Board::Board(std::shared_ptr<Common> comm, uint32_t dimension, uint32_t twidth, uint32_t theight)
-      : m_common(comm), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(3)
+      : m_common(comm), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(2)
       , m_tileWidth(twidth), m_tileHeight(theight)
   {
     if ( dimension <= 2 )
@@ -116,7 +116,7 @@ namespace PuzzleGame
       std::random_shuffle( empties.begin(), empties.end() );
       auto rndPos = *empties.begin();
       m_tiles[ rndPos.second*m_dim+rndPos.first ] = RandomTile( rndPos.first, rndPos.second );
-      m_timeUntilNext = 3;
+      m_timeUntilNext = 2;
     }
     else
     {
