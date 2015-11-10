@@ -49,7 +49,10 @@ Common::~Common()
 bool Common::BeginLoop()
 {
   // clear
-  SDL_SetRenderDrawColor( m_sdlRenderer, 40,40,40,255 );
+  Uint8 r=Colors::GRAYWORKSPACE.r;
+  Uint8 g=Colors::GRAYWORKSPACE.g;
+  Uint8 b=Colors::GRAYWORKSPACE.b;
+  SDL_SetRenderDrawColor( m_sdlRenderer, r,g,b,255);
   if ( SDL_RenderClear( m_sdlRenderer ) != 0 )
     return true;
 

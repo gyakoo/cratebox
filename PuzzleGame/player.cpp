@@ -61,6 +61,8 @@ namespace PuzzleGame
         rects[i].Translate(1,1);
         rects[i].Deflate(7,7);
         m_common->FillRect( rects[i], color );
+        rects[i].Deflate(30,30);
+        m_common->FillRect( rects[i], Colors::GRAYWORKSPACE );
       }
     }
   }
@@ -73,8 +75,8 @@ namespace PuzzleGame
     {
       m_left = nx;
       m_top = ny;
-      MatchPieces();
       m_board->OnPlayerAdvanced( m_left, m_top );
+      MatchPieces();
     }
   }
 
@@ -92,7 +94,7 @@ namespace PuzzleGame
         t.m_data == (uint32_t)m_logoTiles[i] )
       {
         auto& pos = positions[i];
-        m_board->MatchPiece(pos.first, pos.second);
+        m_board->MatchPiece(m_left, m_top, pos.first, pos.second);
       }
     }
   }

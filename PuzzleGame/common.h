@@ -28,7 +28,7 @@ namespace PuzzleGame
 
   enum PuzzleGameConstants
   {
-    BOARD_DIM_DEFAULT = 5
+    BOARD_DIM_DEFAULT = 4
   };
 
   class StringUtils
@@ -92,7 +92,9 @@ namespace PuzzleGame
     static const Color MSRED=Color(242,80,34,255);
     static const Color MSGREEN=Color(127,186,0,255);
     static const Color MSBLUE=Color(0,164,239,255);
-    static const Color MSYELLOW=Color(255,185,0,255);  
+    static const Color MSYELLOW=Color(255,185,0,255); 
+
+    static const Color GRAYWORKSPACE=Color(40,40,40,255);
   };
 
   class IKeyListener

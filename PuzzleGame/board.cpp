@@ -8,12 +8,9 @@ namespace PuzzleGame
   {
     if ( dimension <= 2 )
       throw std::exception("Invalid board dimension, has to be >2");
-    //m_tileWidth = m_common->GetWidth() / dimension;
-    //m_tileHeight = m_common->GetHeight() / dimension;
     m_borderHoriz = (m_common->GetWidth() - ( m_tileWidth * m_dim )) / 2;
     m_borderVert = (m_common->GetHeight() - ( m_tileHeight * m_dim ) ) / 2;
     m_tiles.resize( dimension * dimension );
-   // std::random_device generator;
     std::default_random_engine  generator;
     m_diceColor = std::bind( std::uniform_int_distribution<uint32_t>(0,3), generator );
     m_diceBool = std::bind( std::bernoulli_distribution(0.5), generator );
@@ -66,10 +63,9 @@ namespace PuzzleGame
       Colors::MSRED, Colors::MSGREEN, 
       Colors::MSYELLOW, Colors::MSBLUE };
     Rect dr=r;
-    //m_common->DrawRect( r, Colors::WHITE ); 
 
     dr.Translate(1,1);
-    dr.Deflate(7,7);
+    dr.Deflate(43,43);
 
     Color c(0,0,0,0);
     switch ( t.m_type )
@@ -104,16 +100,34 @@ namespace PuzzleGame
     --m_timeUntilNext;
     if ( m_timeUntilNext == 0 )
     {
-      m_timeUntilNext = 3;
       CreatePiece(plLeft, plTop);
     }
-    m_label->SetText( StringUtils::From((int)m_timeUntilNext) );
+    UpdateGUI();
   }
 
   void Board::CreatePiece(uint32_t plLeft, uint32_t plTop)
   {
     // gather all available spaces
-    std::vector< std::pair<uint32_t, uint32_t> > empties;
+    auto empties = GetEmptyTileSlots(plLeft, plTop);
+    
+    // random sort
+    if ( !empties.empty() )
+    {
+      std::random_shuffle( empties.begin(), empties.end() );
+      auto rndPos = *empties.begin();
+      m_tiles[ rndPos.second*m_dim+rndPos.first ] = RandomTile( rndPos.first, rndPos.second );
+      m_timeUntilNext = 3;
+    }
+    else
+    {
+      OnNoMoreSpaceForNewPiece();
+    }
+    UpdateGUI();
+  }
+
+  std::vector<std::pair<uint32_t,uint32_t>> Board::GetEmptyTileSlots(uint32_t plLeft, uint32_t plTop)
+  {
+    std::vector<std::pair<uint32_t,uint32_t>> empties;
     empties.reserve( m_tiles.size() );
     for ( uint32_t y = 0; y < m_dim; ++y )
     {
@@ -126,18 +140,7 @@ namespace PuzzleGame
         }
       }
     }
-
-    // random sort
-    if ( !empties.empty() )
-    {
-      std::random_shuffle( empties.begin(), empties.end() );
-      auto rndPos = *empties.begin();
-      m_tiles[ rndPos.second*m_dim+rndPos.first ] = RandomTile( rndPos.first, rndPos.second );
-    }
-    else
-    {
-      OnNoMoreSpaceForNewPiece();
-    }
+    return empties;
   }
 
   bool Board::IsPartOfPlayerLogo(uint32_t x, uint32_t y, uint32_t plLeft, uint32_t plTop)
@@ -175,8 +178,19 @@ namespace PuzzleGame
     return retTile;
   }
 
-  void Board::MatchPiece(uint32_t x, uint32_t y)
+  void Board::MatchPiece(uint32_t plLeft, uint32_t plTop, uint32_t x, uint32_t y)
   {
     m_tiles[y*m_dim+x].m_type = TT_NONE;
+    auto empties = GetEmptyTileSlots(m_dim,m_dim);
+    // no more pieces left
+    if ( empties.size() == (m_dim*m_dim) )
+    {
+      CreatePiece(plLeft, plTop);
+    }
+  }
+
+  void Board::UpdateGUI()
+  {
+    m_label->SetText( StringUtils::From((int)m_timeUntilNext) );
   }
 };

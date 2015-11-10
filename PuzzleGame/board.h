@@ -32,7 +32,7 @@ namespace PuzzleGame
     void OnPlayerAdvanced(uint32_t plLeft, uint32_t plTop);
     uint32_t GetTimeStamp(){ return m_timeStamp; }
     void SetTimeUntilNext(uint32_t tun){ m_timeUntilNext=tun; } 
-    void MatchPiece(uint32_t x, uint32_t y);
+    void MatchPiece(uint32_t plLeft, uint32_t plTop, uint32_t x, uint32_t y);
 
   private:
     void DrawTile(const Tile& t, const Rect& r);
@@ -41,6 +41,8 @@ namespace PuzzleGame
     bool IsPartOfPlayerLogo(uint32_t x, uint32_t y, uint32_t plLeft, uint32_t plTop);
     Tile RandomTile(uint32_t x, uint32_t y);
     void OnNoMoreSpaceForNewPiece();
+    std::vector<std::pair<uint32_t,uint32_t>> GetEmptyTileSlots(uint32_t plLeft, uint32_t plTop);
+    void UpdateGUI();
 
   private:
     std::shared_ptr<Common> m_common;
