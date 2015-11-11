@@ -15,10 +15,10 @@ premake5 --file=premake5.lua vs2012
 
 :end
 
-xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2015\bin\x32\debug\ /Y
-xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2015\bin\x32\release\ /Y
+xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2012\bin\x32\debug\ /Y
+xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2012\bin\x32\release\ /Y
 
-xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2015\bin\x64\debug\ /Y
-xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2015\bin\x64\release\ /Y
+xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2012\bin\x64\debug\ /Y
+xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2012\bin\x64\release\ /Y
 echo.
 pause
