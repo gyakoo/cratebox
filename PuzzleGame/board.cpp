@@ -2,6 +2,60 @@
 
 namespace PuzzleGame
 {
+  // this class allows to iterate the vector of tiles easily in a for-range loop
+  // keeping the x,y information as long as the index and the rect
+#pragma warning(disable:4512)
+  template<typename T>
+  class TileRange
+  {
+  public:
+    struct Iterator
+    {
+      Iterator(uint32_t x, uint32_t y, uint32_t ti, std::vector<T>& cont, uint32_t tw=0, uint32_t th=0)
+        : m_x(x), m_y(y), m_tileNdx(ti), m_container(cont), m_twidth(tw), m_theight(th) { }
+
+      void operator ++()
+      {
+        uint32_t dim = (uint32_t)std::sqrt(m_container.size());
+        ++m_x;
+        if ( m_x >= dim )
+        {
+          m_x = 0;
+          ++m_y;
+        }
+        ++m_tileNdx;
+      }
+      
+      bool operator ==(const Iterator& it) const { return m_tileNdx==it.m_tileNdx; }
+      bool operator !=(const Iterator& it) const { return !this->operator==(it); }
+      Iterator operator *() const { return *this; }
+
+      uint32_t x()const { return m_x;}
+      uint32_t y()const { return m_y;}
+      std::pair<uint32_t, uint32_t> xy(){ return std::make_pair(m_x,m_y); }
+      T& tile(){ return m_container[m_tileNdx]; }
+      const T& tile() const { return m_container[m_tileNdx]; }
+      Rect rect(int dx=0, int dy=0) const { return Rect(m_x*m_twidth+dx, m_y*m_theight+dy, m_twidth, m_theight); }
+
+    private:
+      std::vector<T>& m_container;
+      uint32_t m_x, m_y;
+      uint32_t m_twidth, m_theight;
+      uint32_t m_tileNdx;
+    };
+
+  public:
+    TileRange(std::vector<T>& c, uint32_t tw=0, uint32_t th=0) : c(c), tw(tw), th(th) {}
+    TileRange& operator =(const TileRange& tr) { return *this; }
+    Iterator begin() { return Iterator(0,0,0,c,tw,th); }
+    Iterator end() { return Iterator(0,0,c.size(),c,tw,th); }
+
+    std::vector<T>& c;
+    uint32_t tw, th;
+  };
+#pragma warning(default:4512)
+
+
   Board::Board(std::shared_ptr<Engine> engine, uint32_t dimension, uint32_t twidth, uint32_t theight)
       : m_engine(engine), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(2)
       , m_tileWidth(twidth), m_tileHeight(theight)
@@ -16,14 +70,16 @@ namespace PuzzleGame
     m_diceBool = std::bind( std::bernoulli_distribution(0.5), generator );
     m_label = std::unique_ptr<Text>(new Text(m_engine->GetFont("data/OpenSans-Bold.ttf",24), "hey", Colors::YELLOW));
   }
-
+  
   void Board::Update()
   {
     auto elapsed = m_engine->GetTimerDelta();
     const auto& zeroms = std::chrono::milliseconds::zero();
-    for (auto& t : m_tiles)
+
+    for (auto it : TileRange<Tile>(m_tiles))
     {
-      if (t.IsPiece() && t.m_life > zeroms )
+      auto& t = it.tile();
+      if (t.IsPiece() && t.m_life > zeroms)
       {
         t.m_life -= elapsed;
         if (t.m_life <= zeroms)
@@ -37,23 +93,14 @@ namespace PuzzleGame
   void Board::Draw()
   {
     DrawGrid();
-    Rect r(m_borderHoriz, m_borderVert, m_tileWidth, m_tileHeight);
-    auto x = 0u;
-    for ( auto t : m_tiles )
+
+    for (auto it : TileRange<Tile>(m_tiles,m_tileWidth,m_tileHeight))
     {
-      DrawTile(t, r);
-      ++x;
-      if ( x >= m_dim )
-      {
-        r.x = m_borderHoriz;
-        r.y += m_tileHeight;
-        x = 0;
-      }
-      else
-      {
-        r.x += m_tileWidth;
-      }
+      auto& t = it.tile();
+      auto r = it.rect(m_borderHoriz, m_borderVert);
+      DrawTile(t,r);
     }
+
     m_label->Draw(10,10);
   }
 
@@ -142,15 +189,13 @@ namespace PuzzleGame
   {
     std::vector<std::pair<uint32_t,uint32_t>> empties;
     empties.reserve( m_tiles.size() );
-    for ( uint32_t y = 0; y < m_dim; ++y )
+
+    for (auto it : TileRange<Tile>(m_tiles))
     {
-      for ( uint32_t x = 0; x < m_dim; ++x )
+      auto& t = it.tile();
+      if ( t.IsNone() && !IsPartOfPlayerLogo(it.x(),it.y(),plLeft,plTop) )
       {
-        auto& t = m_tiles[ y*m_dim+x ];
-        if ( t.IsNone() && !IsPartOfPlayerLogo(x,y,plLeft,plTop) )
-        {
-          empties.push_back( std::make_pair(x,y) );
-        }
+        empties.push_back( it.xy() );
       }
     }
     return empties;
