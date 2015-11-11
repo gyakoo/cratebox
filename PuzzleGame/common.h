@@ -57,14 +57,14 @@ namespace PuzzleGame
       y+=dy;
     }
 
-    void Deflate(int x, int y)
+    void Deflate(int nx, int ny)
     {
-      const auto hx = x/2;
-      const auto hy = y/2;
-      this->x += hx;
-      this->y += hy;
-      width -= x;
-      height -= y;
+      const auto hx = nx/2;
+      const auto hy = ny/2;
+      x += hx;
+      y += hy;
+      width -= nx;
+      height -= ny;
     }
   };
 
@@ -102,8 +102,8 @@ namespace PuzzleGame
   public:
     IKeyListener(){}
     virtual ~IKeyListener(){}
-    virtual void OnKeyDown(int scancode) {};
-    virtual void OnKeyUp(int scancode) {};
+    virtual void OnKeyDown(int scancode) { UNREFERENCED_PARAMETER(scancode); };
+    virtual void OnKeyUp(int scancode) { UNREFERENCED_PARAMETER(scancode); };
   };
 
   class Font;

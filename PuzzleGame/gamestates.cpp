@@ -14,7 +14,7 @@ namespace PuzzleGame
     m_board = std::make_shared<Board>(m_common, BOARD_DIM_DEFAULT, 96, 96);
     m_player = std::unique_ptr<Player>(new Player(m_common, m_board));
     //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
-    m_font = std::make_shared<Font>(m_common, "OpenSans-Bold.ttf", 24);
+    m_font = std::make_shared<Font>(m_common, "data/OpenSans-Bold.ttf", 24);
   }
 
   void GameStatePlaying::OnUpdate()

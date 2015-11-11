@@ -17,7 +17,8 @@ namespace PuzzleGame
   private:
     enum LogoTileType { LTT_R=0, LTT_G, LTT_Y, LTT_B };
     void Move(int dx, int dy);
-    template<bool LEFT> void Rotate();
+    void RotateLeft();
+    void RotateRight();
     bool CanMoveTo(int left, int top);
     void MatchPieces();
     void GetOverlappingPieces(uint32_t left, uint32_t top, std::array<Board::Tile,4>& outPieces);

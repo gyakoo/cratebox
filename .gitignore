@@ -1,7 +1,4 @@
-PuzzleGame.v11.suo
-PuzzleGame.opensdf
-PuzzleGame.sdf
-Debug
-PuzzleGame/Debug
-Release
-PuzzleGame/Release
+.vs
+buildvs2015
+buildvs2012
+

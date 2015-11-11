@@ -28,8 +28,8 @@ namespace PuzzleGame
     case SDL_SCANCODE_RIGHT: Move(+1,0); break;
     case SDL_SCANCODE_UP   : Move(0,-1); break;
     case SDL_SCANCODE_DOWN : Move(0,+1); break;
-    case SDL_SCANCODE_Z: Rotate<true>(); break;
-    case SDL_SCANCODE_X: Rotate<false>(); break;
+    case SDL_SCANCODE_Z: RotateLeft(); break;
+    case SDL_SCANCODE_X: RotateRight(); break;
     }
   }
 
@@ -128,13 +128,15 @@ namespace PuzzleGame
     return true;
   }
 
-  template<bool LEFT>
-  void Player::Rotate()
-  {
-    if ( LEFT )
-      std::rotate( m_logoTiles.begin(), m_logoTiles.begin()+1, m_logoTiles.end() );
-    else
-      std::rotate( m_logoTiles.rbegin(), m_logoTiles.rbegin()+1, m_logoTiles.rend() );
+  void Player::RotateLeft()
+  {   
+    std::rotate( m_logoTiles.begin(), m_logoTiles.begin()+1, m_logoTiles.end() );
     m_board->OnPlayerAdvanced( m_left, m_top );
+  }
+
+  void Player::RotateRight()
+  {
+    std::rotate(m_logoTiles.rbegin(), m_logoTiles.rbegin() + 1, m_logoTiles.rend());
+    m_board->OnPlayerAdvanced(m_left, m_top);
   }
 };

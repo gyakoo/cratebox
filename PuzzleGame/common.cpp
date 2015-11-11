@@ -35,7 +35,7 @@ Common::Common(uint32_t width, uint32_t height, const std::string& title, bool f
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
     SDL_SetRenderDrawBlendMode(m_sdlRenderer, SDL_BLENDMODE_BLEND);
 
-    m_defaultFont = std::make_shared<Font>( std::shared_ptr<Common>(this), "OpenSans-Bold.ttf",24);
+    m_defaultFont = std::make_shared<Font>( std::shared_ptr<Common>(this), "data/OpenSans-Bold.ttf",24);
 }
 
 Common::~Common()
