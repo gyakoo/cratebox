@@ -12,7 +12,7 @@ namespace PuzzleGame
     {
       Tile():m_type(TT_NONE){}
       Tile( TileType type, uint32_t time, uint32_t data=0)
-        : m_type(type), m_timeCreate(time), m_data(data)
+        : m_type(type), m_timeCreate(time), m_data(data), m_life(1000)
       {}
       bool IsNone(){return m_type==TT_NONE;}
       bool IsPiece(){ return m_type==TT_PIECE;}
@@ -20,6 +20,7 @@ namespace PuzzleGame
       TileType m_type;
       uint32_t m_data;
       uint32_t m_timeCreate;
+      std::chrono::milliseconds m_life;
     };
     
   public:

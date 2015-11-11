@@ -21,7 +21,6 @@ namespace PuzzleGame
       std::function<void (void)> m_periodFunc;
     };
 
-    uint32_t m_lastTicks;
     std::shared_ptr<Engine> m_engine;
     std::vector<Callback> m_callbacks;
   };

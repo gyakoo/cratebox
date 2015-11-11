@@ -6,34 +6,36 @@ namespace PuzzleGame
 Engine::Engine(uint32_t width, uint32_t height, const std::string& title, bool fullscreen )
   : m_width(width), m_height(height), m_sdlWindow(nullptr), m_sdlRenderer(nullptr)
 {
-    // System
-    if ( SDL_Init(SDL_INIT_EVERYTHING) != 0 )
-      throw std::exception("sdl init error");
+  // System
+  if ( SDL_Init(SDL_INIT_EVERYTHING) != 0 )
+    throw std::exception("sdl init error");
 
-    if ( TTF_Init() != 0 )
-      throw std::exception("ttf init error");
+  if ( TTF_Init() != 0 )
+    throw std::exception("ttf init error");
 
-    // Window
-    uint32_t winFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
-    if ( fullscreen )
-      winFlags |= SDL_WINDOW_FULLSCREEN;
-    m_sdlWindow =  SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
-      width, height, winFlags );
-    if ( !m_sdlWindow )
-      throw std::exception("error creating window");
+  // Window
+  uint32_t winFlags = SDL_WINDOW_SHOWN | SDL_WINDOW_OPENGL;
+  if ( fullscreen )
+    winFlags |= SDL_WINDOW_FULLSCREEN;
+  m_sdlWindow =  SDL_CreateWindow(title.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 
+    width, height, winFlags );
+  if ( !m_sdlWindow )
+    throw std::exception("error creating window");
 
-    // Renderer
-    uint32_t renderFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
-    m_sdlRenderer = SDL_CreateRenderer(m_sdlWindow, -1, renderFlags);
-    if ( !m_sdlRenderer)
-    {
-      SDL_DestroyWindow(m_sdlWindow);
-      throw std::exception("cannot create renderer");
-    }
+  // Renderer
+  uint32_t renderFlags = SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC;
+  m_sdlRenderer = SDL_CreateRenderer(m_sdlWindow, -1, renderFlags);
+  if ( !m_sdlRenderer)
+  {
+    SDL_DestroyWindow(m_sdlWindow);
+    throw std::exception("cannot create renderer");
+  }
 
-    SDL_RenderSetLogicalSize(m_sdlRenderer, width, height);
-    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
-    SDL_SetRenderDrawBlendMode(m_sdlRenderer, SDL_BLENDMODE_BLEND);
+  SDL_RenderSetLogicalSize(m_sdlRenderer, width, height);
+  SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
+  SDL_SetRenderDrawBlendMode(m_sdlRenderer, SDL_BLENDMODE_BLEND);
+
+  m_lastTicks = GetTimerTicks();
 }
 
 Engine::~Engine()
@@ -85,6 +87,7 @@ bool Engine::BeginLoop()
 void Engine::EndLoop()
 {
   SDL_RenderPresent(m_sdlRenderer);
+  m_lastTicks = GetTimerTicks();
 }
 
 void Engine::FillRect( const Rect& rect, const Color& color )
@@ -133,9 +136,19 @@ void Engine::PostQuitEvent()
   SDL_PushEvent(&evt);
 }
 
-uint32_t Engine::GetTimerTicks()
+std::chrono::milliseconds Engine::GetTimerTicks()
 {
-  return SDL_GetTicks();
+  return std::chrono::milliseconds(SDL_GetTicks());
+}
+
+std::chrono::milliseconds Engine::GetTimerDelta()
+{
+  auto dt = GetTimerTicks() - m_lastTicks;
+  auto mindt = std::chrono::milliseconds(4);
+  auto maxdt = std::chrono::milliseconds(17);
+  if (dt <= mindt || dt > maxdt)
+    dt = maxdt;
+  return dt;
 }
 
 std::shared_ptr<Font> Engine::GetFont(const std::string& fontName, uint32_t size)

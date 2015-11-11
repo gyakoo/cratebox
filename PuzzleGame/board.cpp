@@ -19,6 +19,19 @@ namespace PuzzleGame
 
   void Board::Update()
   {
+    auto elapsed = m_engine->GetTimerDelta();
+    const auto& zeroms = std::chrono::milliseconds::zero();
+    for (auto& t : m_tiles)
+    {
+      if (t.IsPiece() && t.m_life > zeroms )
+      {
+        t.m_life -= elapsed;
+        if (t.m_life <= zeroms)
+        {
+
+        }
+      }
+    }
   }
 
   void Board::Draw()

@@ -127,7 +127,8 @@ namespace PuzzleGame
     void AddKeyListener(IKeyListener* kl );
     void RemoveKeyListener( IKeyListener* kl );
     void PostQuitEvent();
-    uint32_t GetTimerTicks();
+    std::chrono::milliseconds GetTimerTicks();
+    std::chrono::milliseconds GetTimerDelta();
 
     SDL_Renderer* GetRenderer(){ return m_sdlRenderer; }
     SDL_Window* GetWindow(){ return m_sdlWindow; }
@@ -139,6 +140,7 @@ namespace PuzzleGame
     SDL_Window* m_sdlWindow;
     SDL_Renderer* m_sdlRenderer;    
     uint32_t m_width, m_height;
+    std::chrono::milliseconds m_lastTicks;
     std::vector< IKeyListener* > m_keyListeners; // todo: change to use shared_ptr but gives me destruction issues for Player deriving from IKeyListener
     std::map< FontNameSize, std::shared_ptr<Font> > m_fonts;
   };

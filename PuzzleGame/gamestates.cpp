@@ -19,6 +19,7 @@ namespace PuzzleGame
   void GameStatePlaying::OnUpdate()
   {
     m_timer.Update();
+    m_board->Update();
     m_player->Update();
 
     m_board->Draw();
