@@ -3,7 +3,7 @@
 namespace PuzzleGame
 {
 
-Common::Common(uint32_t width, uint32_t height, const std::string& title, bool fullscreen )
+Engine::Engine(uint32_t width, uint32_t height, const std::string& title, bool fullscreen )
   : m_width(width), m_height(height), m_sdlWindow(nullptr), m_sdlRenderer(nullptr)
 {
     // System
@@ -34,11 +34,9 @@ Common::Common(uint32_t width, uint32_t height, const std::string& title, bool f
     SDL_RenderSetLogicalSize(m_sdlRenderer, width, height);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, 0);
     SDL_SetRenderDrawBlendMode(m_sdlRenderer, SDL_BLENDMODE_BLEND);
-
-    m_defaultFont = std::make_shared<Font>( std::shared_ptr<Common>(this), "data/OpenSans-Bold.ttf",24);
 }
 
-Common::~Common()
+Engine::~Engine()
 {
   SDL_DestroyWindow(m_sdlWindow);
   SDL_DestroyRenderer(m_sdlRenderer);
@@ -46,7 +44,7 @@ Common::~Common()
   SDL_Quit();
 }
 
-bool Common::BeginLoop()
+bool Engine::BeginLoop()
 {
   // clear
   Uint8 r=Colors::GRAYWORKSPACE.r;
@@ -84,64 +82,77 @@ bool Common::BeginLoop()
   return true;
 }
 
-void Common::EndLoop()
+void Engine::EndLoop()
 {
   SDL_RenderPresent(m_sdlRenderer);
 }
 
-void Common::FillRect( const Rect& rect, const Color& color )
+void Engine::FillRect( const Rect& rect, const Color& color )
 {
   SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
   SDL_RenderFillRect( m_sdlRenderer, reinterpret_cast<const SDL_Rect*>(&rect) );
 }
 
-void Common::DrawRect( const Rect& rect, const Color& color )
+void Engine::DrawRect( const Rect& rect, const Color& color )
 {
   SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
   SDL_RenderDrawRect( m_sdlRenderer, reinterpret_cast<const SDL_Rect*>(&rect) );
 }
 
-void Common::DrawLine( uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, const Color& color )
+void Engine::DrawLine( uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, const Color& color )
 {
   SDL_SetRenderDrawColor( m_sdlRenderer, color.r, color.g, color.b, color.a );
   SDL_RenderDrawLine(m_sdlRenderer, (int)x0, (int)y0, (int)x1, (int)y1 );
 }
 
-uint32_t Common::GetWidth()
+uint32_t Engine::GetWidth()
 {
   return m_width;
 }
 
-uint32_t Common::GetHeight()
+uint32_t Engine::GetHeight()
 {
   return m_height;
 }
 
-void Common::AddKeyListener( IKeyListener* kl )
+void Engine::AddKeyListener( IKeyListener* kl )
 {
   m_keyListeners.push_back( kl );
 }
 
-void Common::RemoveKeyListener( IKeyListener* kl )
+void Engine::RemoveKeyListener( IKeyListener* kl )
 {
   std::remove_if( m_keyListeners.begin(), m_keyListeners.end(),
     [kl](IKeyListener* p){ return p==kl; } );
 }
 
-void Common::PostQuitEvent()
+void Engine::PostQuitEvent()
 {
   SDL_Event evt;
   evt.type = SDL_QUIT;
   SDL_PushEvent(&evt);
 }
 
-uint32_t Common::GetTimerTicks()
+uint32_t Engine::GetTimerTicks()
 {
   return SDL_GetTicks();
 }
 
-Font::Font( std::shared_ptr<Common> comm, const std::string& fontName, int fontSize )
-  : m_common(comm), m_fontName(fontName), m_fontSize(fontSize)
+std::shared_ptr<Font> Engine::GetFont(const std::string& fontName, uint32_t size)
+{
+  FontNameSize fns = std::make_pair(fontName, size);
+  auto it = m_fonts.find(fns);
+  if (it != m_fonts.end())
+    return it->second;
+  auto newfont = std::make_shared<Font>(std::shared_ptr<Engine>(this), fontName, (int)size);
+  m_fonts[fns] = newfont;
+  return newfont;
+}
+
+
+
+Font::Font( std::shared_ptr<Engine> engine, const std::string& fontName, int fontSize )
+  : m_engine(engine), m_fontName(fontName), m_fontSize(fontSize)
 {
   _CreateFont();
 }
@@ -206,7 +217,7 @@ void Text::_CreateText()
     throw std::exception( "cannot create surface for text" );
   m_width = tmpSurf->w;
   m_height = tmpSurf->h;
-  m_textTexture = SDL_CreateTextureFromSurface( m_font->m_common->GetRenderer(), tmpSurf );
+  m_textTexture = SDL_CreateTextureFromSurface( m_font->m_engine->GetRenderer(), tmpSurf );
   if ( !m_textTexture )
     throw std::exception( "cannot create text texture" );
 
@@ -224,7 +235,7 @@ void Text::_DestroyText()
 
 void Text::Draw(const Rect& rect)
 {
-  SDL_RenderCopy(m_font->m_common->GetRenderer(), m_textTexture,
+  SDL_RenderCopy(m_font->m_engine->GetRenderer(), m_textTexture,
     nullptr, reinterpret_cast<const SDL_Rect*>(&rect));
 }
 
@@ -234,27 +245,27 @@ void Text::Draw(int x, int y)
   Draw(r);
 }
 
-  std::string StringUtils::From(int i)
-  {
-    std::array<char,512> s;
-    _itoa_s(i,s.data(),s.size(),10);
-    return std::string(s.data());
-  }
+std::string StringUtils::From(int i)
+{
+  std::array<char,512> s;
+  _itoa_s(i,s.data(),s.size(),10);
+  return std::string(s.data());
+}
   
-  std::string StringUtils::From(float f)
-  {
-    std::array<char,512> s;
-    sprintf_s(s.data(), s.size(),"%g",f);
-    return std::string(s.data());
-  }
+std::string StringUtils::From(float f)
+{
+  std::array<char,512> s;
+  sprintf_s(s.data(), s.size(),"%g",f);
+  return std::string(s.data());
+}
 
-  std::string StringUtils::Format(const char* format, ...)
-  {
-    std::array<char,512> s;
-    va_list args;
-    va_start( args, format );
-    vsprintf_s(s.data(),s.size(), format, args );
-    va_end( args );
-    return std::string(s.data());
-  }
+std::string StringUtils::Format(const char* format, ...)
+{
+  std::array<char,512> s;
+  va_list args;
+  va_start( args, format );
+  vsprintf_s(s.data(),s.size(), format, args );
+  va_end( args );
+  return std::string(s.data());
+}
 };

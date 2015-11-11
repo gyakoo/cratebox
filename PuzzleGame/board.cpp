@@ -2,19 +2,19 @@
 
 namespace PuzzleGame
 {
-  Board::Board(std::shared_ptr<Common> comm, uint32_t dimension, uint32_t twidth, uint32_t theight)
-      : m_common(comm), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(2)
+  Board::Board(std::shared_ptr<Engine> engine, uint32_t dimension, uint32_t twidth, uint32_t theight)
+      : m_engine(engine), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(2)
       , m_tileWidth(twidth), m_tileHeight(theight)
   {
     if ( dimension <= 2 )
       throw std::exception("Invalid board dimension, has to be >2");
-    m_borderHoriz = (m_common->GetWidth() - ( m_tileWidth * m_dim )) / 2;
-    m_borderVert = (m_common->GetHeight() - ( m_tileHeight * m_dim ) ) / 2;
+    m_borderHoriz = (m_engine->GetWidth() - ( m_tileWidth * m_dim )) / 2;
+    m_borderVert = (m_engine->GetHeight() - ( m_tileHeight * m_dim ) ) / 2;
     m_tiles.resize( dimension * dimension );
     std::default_random_engine  generator;
     m_diceColor = std::bind( std::uniform_int_distribution<uint32_t>(0,3), generator );
     m_diceBool = std::bind( std::bernoulli_distribution(0.5), generator );
-    m_label = std::unique_ptr<Text>(new Text(m_common->GetDefaultFont(), "hey", Colors::YELLOW));
+    m_label = std::unique_ptr<Text>(new Text(m_engine->GetFont("data/OpenSans-Bold.ttf",24), "hey", Colors::YELLOW));
   }
 
   void Board::Update()
@@ -49,12 +49,12 @@ namespace PuzzleGame
     uint32_t x0=m_borderHoriz;
     uint32_t y1=m_borderVert+m_tileHeight*m_dim;
     for (uint32_t x = 0; x <= m_dim; ++x, x0+=m_tileWidth)
-      m_common->DrawLine( x0, m_borderVert, x0, y1, Colors::WHITE );
+      m_engine->DrawLine( x0, m_borderVert, x0, y1, Colors::WHITE );
 
     uint32_t y0=m_borderVert;
     uint32_t x1=m_borderHoriz+m_tileWidth*m_dim;
     for (uint32_t y = 0; y <= m_dim; ++y, y0+=m_tileHeight)
-      m_common->DrawLine( m_borderHoriz, y0, x1, y0, Colors::WHITE );
+      m_engine->DrawLine( m_borderHoriz, y0, x1, y0, Colors::WHITE );
   }
 
   void Board::DrawTile(const Tile& t, const Rect& r)
@@ -75,7 +75,7 @@ namespace PuzzleGame
 
     if ( c.a != 0 )
     {
-      m_common->FillRect(dr, c); 
+      m_engine->FillRect(dr, c); 
     }
   }
     

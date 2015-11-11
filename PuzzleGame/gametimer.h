@@ -6,7 +6,7 @@ namespace PuzzleGame
   class GameTimer
   {
   public:
-    GameTimer(std::shared_ptr<Common> comm);
+    GameTimer(std::shared_ptr<Engine> engine);
 
     uint32_t AddCallback( std::chrono::milliseconds period, std::function<void ()> func);
     void RemoveCallback(uint32_t cbIndex);
@@ -22,7 +22,7 @@ namespace PuzzleGame
     };
 
     uint32_t m_lastTicks;
-    std::shared_ptr<Common> m_common;
+    std::shared_ptr<Engine> m_engine;
     std::vector<Callback> m_callbacks;
   };
 

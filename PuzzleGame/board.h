@@ -23,7 +23,7 @@ namespace PuzzleGame
     };
     
   public:
-    Board(std::shared_ptr<Common> comm, uint32_t twidth, uint32_t theight, uint32_t dimension);
+    Board(std::shared_ptr<Engine> engine, uint32_t twidth, uint32_t theight, uint32_t dimension);
     void Update();
     void Draw();
     Tile& GetTile(uint32_t x, uint32_t y);
@@ -45,7 +45,7 @@ namespace PuzzleGame
     void UpdateGUI();
 
   private:
-    std::shared_ptr<Common> m_common;
+    std::shared_ptr<Engine> m_engine;
     std::vector< Tile > m_tiles;
     uint32_t m_dim;
     uint32_t m_tileWidth;

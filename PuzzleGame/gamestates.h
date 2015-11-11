@@ -13,7 +13,7 @@ namespace PuzzleGame
   class GameStatePlaying : public FSMState
   {
   public:
-    GameStatePlaying(std::shared_ptr<FSMManager> fsm, std::shared_ptr<Common> comm);
+    GameStatePlaying(std::shared_ptr<FSMManager> fsm, std::shared_ptr<Engine> engine);
     virtual void OnEnter();
     virtual void OnUpdate();
     virtual void OnExit();
@@ -22,10 +22,9 @@ namespace PuzzleGame
   private:
     GameTimer m_timer;
     std::shared_ptr<FSMManager> m_fsm;
-    std::shared_ptr<Common> m_common;
+    std::shared_ptr<Engine> m_engine;
     std::shared_ptr<Board> m_board;
     std::unique_ptr<Player> m_player;
-    std::shared_ptr<Font> m_font;
   };
 
 };

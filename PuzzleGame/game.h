@@ -11,16 +11,16 @@ namespace PuzzleGame
   class Game : public IKeyListener
   {
   public:
-    Game(std::shared_ptr<Common> comm);
+    Game(std::shared_ptr<Engine> engine);
     ~Game();
 
     void MainLoop();
     virtual void OnKeyDown(int code);
-    std::shared_ptr<Common> GetCommon(){ return m_common; }
+    std::shared_ptr<Engine> GetEngine(){ return m_engine; }
 
   private:
     FSMManager::StateHandle m_hStartingState;
-    std::shared_ptr<Common> m_common;
+    std::shared_ptr<Engine> m_engine;
     std::shared_ptr<FSMManager> m_fsm;
   };
 

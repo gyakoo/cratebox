@@ -4,17 +4,16 @@
 namespace PuzzleGame
 {
 
-  GameStatePlaying::GameStatePlaying(std::shared_ptr<FSMManager> fsm, std::shared_ptr<Common> comm)
-    : m_fsm(fsm), m_common(comm), m_timer(comm)
+  GameStatePlaying::GameStatePlaying(std::shared_ptr<FSMManager> fsm, std::shared_ptr<Engine> engine)
+    : m_fsm(fsm), m_engine(engine), m_timer(engine)
   {
   }
 
   void GameStatePlaying::OnEnter()
   {
-    m_board = std::make_shared<Board>(m_common, BOARD_DIM_DEFAULT, 96, 96);
-    m_player = std::unique_ptr<Player>(new Player(m_common, m_board));
+    m_board = std::make_shared<Board>(m_engine, BOARD_DIM_DEFAULT, 96, 96);
+    m_player = std::unique_ptr<Player>(new Player(m_engine, m_board));
     //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
-    m_font = std::make_shared<Font>(m_common, "data/OpenSans-Bold.ttf", 24);
   }
 
   void GameStatePlaying::OnUpdate()
@@ -39,7 +38,7 @@ namespace PuzzleGame
     {
     case SDL_SCANCODE_LEFT : break;
     case SDL_SCANCODE_RIGHT: break;
-    case SDL_SCANCODE_ESCAPE: m_common->PostQuitEvent(); break;
+    case SDL_SCANCODE_ESCAPE: m_engine->PostQuitEvent(); break;
     }
   }
 

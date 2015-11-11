@@ -2,10 +2,10 @@
 
 namespace PuzzleGame
 {
-  Player::Player(std::shared_ptr<Common> comm, std::shared_ptr<Board> board)
-    : m_common(comm), m_board(board)
+  Player::Player(std::shared_ptr<Engine> engine, std::shared_ptr<Board> board)
+    : m_engine(engine), m_board(board)
   {
-    m_common->AddKeyListener(this);
+    m_engine->AddKeyListener(this);
     m_left = m_top = m_board->GetDimension()/2 - 1;
     m_logoTiles[0] = LTT_R;
     m_logoTiles[1] = LTT_G;
@@ -17,7 +17,7 @@ namespace PuzzleGame
 
   Player::~Player()
   {
-    m_common->RemoveKeyListener(this);
+    m_engine->RemoveKeyListener(this);
   }
 
   void Player::OnKeyDown(int scancode)
@@ -60,9 +60,9 @@ namespace PuzzleGame
       {
         rects[i].Translate(1,1);
         rects[i].Deflate(7,7);
-        m_common->FillRect( rects[i], color );
+        m_engine->FillRect( rects[i], color );
         rects[i].Deflate(30,30);
-        m_common->FillRect( rects[i], Colors::GRAYWORKSPACE );
+        m_engine->FillRect( rects[i], Colors::GRAYWORKSPACE );
       }
     }
   }

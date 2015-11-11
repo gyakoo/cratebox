@@ -4,6 +4,7 @@
 #include <vector>
 #include <algorithm>
 #include <string>
+#include <map>
 #include <array>
 #include <chrono>
 #include <functional>
@@ -109,11 +110,11 @@ namespace PuzzleGame
   class Font;
   class Text;
 
-  class Common
+  class Engine
   {
   public:  
-    Common( uint32_t width, uint32_t height, const std::string& title, bool fullscreen );
-    ~Common();
+    Engine( uint32_t width, uint32_t height, const std::string& title, bool fullscreen );
+    ~Engine();
     bool BeginLoop();
     void EndLoop();
 
@@ -130,19 +131,22 @@ namespace PuzzleGame
 
     SDL_Renderer* GetRenderer(){ return m_sdlRenderer; }
     SDL_Window* GetWindow(){ return m_sdlWindow; }
-    std::shared_ptr<Font> GetDefaultFont(){ return m_defaultFont; }
+    std::shared_ptr<Font> GetFont(const std::string& fontName, uint32_t size);
+  
   protected:
+    typedef std::pair<std::string, uint32_t> FontNameSize;
+
     SDL_Window* m_sdlWindow;
     SDL_Renderer* m_sdlRenderer;    
     uint32_t m_width, m_height;
     std::vector< IKeyListener* > m_keyListeners; // todo: change to use shared_ptr but gives me destruction issues for Player deriving from IKeyListener
-    std::shared_ptr<Font> m_defaultFont;
+    std::map< FontNameSize, std::shared_ptr<Font> > m_fonts;
   };
 
   class Font
   {
   public:
-    Font( std::shared_ptr<Common> comm, const std::string& fontName, int fontSize );
+    Font( std::shared_ptr<Engine> engine, const std::string& fontName, int fontSize );
     ~Font();
     void SetSize(int fontSize);
 
@@ -150,7 +154,7 @@ namespace PuzzleGame
     friend class Text;
     void _CreateFont();
 
-    std::shared_ptr<Common> m_common;
+    std::shared_ptr<Engine> m_engine;
     TTF_Font* m_ttfFont;
     std::string m_fontName;
     int m_fontSize;
@@ -169,7 +173,7 @@ namespace PuzzleGame
     void Draw(int x, int y);
 
   private:
-    friend class Common;
+    friend class Engine;
     void _CreateText();
     void _DestroyText();
 

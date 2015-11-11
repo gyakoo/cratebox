@@ -3,10 +3,10 @@
 namespace PuzzleGame
 {
 
-GameTimer::GameTimer(std::shared_ptr<Common> comm)
-  : m_common(comm)
+GameTimer::GameTimer(std::shared_ptr<Engine> engine)
+  : m_engine(engine)
 {
-  m_lastTicks = m_common->GetTimerTicks();
+  m_lastTicks = m_engine->GetTimerTicks();
 }
 
 uint32_t GameTimer::AddCallback( std::chrono::milliseconds period, std::function<void ()> func)
@@ -32,7 +32,7 @@ void GameTimer::Reset()
 
 void GameTimer::Update()
 {
-  auto curTicks = m_common->GetTimerTicks();
+  auto curTicks = m_engine->GetTimerTicks();
   auto elapsedTicks = curTicks - m_lastTicks;
   m_lastTicks = curTicks;
   

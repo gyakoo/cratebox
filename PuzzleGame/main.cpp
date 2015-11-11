@@ -9,8 +9,8 @@ int CALLBACK _main(int , const char**)
 int APIENTRY WinMain(HINSTANCE, HINSTANCE, LPSTR, int)
 {
   using namespace PuzzleGame;
-  auto comm = std::make_shared<Common>( 800, 600, "Puzzle Game", false );
-  Game game(comm);
+  auto engine = std::make_shared<Engine>( 800, 600, "Puzzle Game", false );
+  Game game(engine);
   game.MainLoop();
   
   return S_OK;
