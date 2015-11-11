@@ -84,7 +84,7 @@ namespace PuzzleGame
         t.m_life -= elapsed;
         if (t.m_life <= zeroms)
         {
-
+          OnPieceTimeUp(t, it.x(), it.y());
         }
       }
     }
@@ -127,18 +127,25 @@ namespace PuzzleGame
     dr.Translate(1,1);
     dr.Deflate(43,43);
 
-    Color c(0,0,0,0);
     switch ( t.m_type )
     {
-    case TT_PIECE: c=s_colors[ t.m_data ]; break;
-    }
-
-    if ( c.a != 0 )
-    {
-      m_engine->FillRect(dr, c); 
+      case TT_PIECE: 
+      {
+        auto c=s_colors[ t.m_data ]; 
+        m_engine->FillRect(dr, c); 
+        dr.width = (int)(t.GetLifeNormal()*dr.width);
+        auto overColor = Colors::BLACK; 
+        overColor.a = 100;
+        m_engine->FillRect(dr, overColor); 
+      }break;
     }
   }
-    
+   
+  void Board::OnPieceTimeUp(Tile& t, uint32_t x, uint32_t y)
+  {
+    t.m_type = TT_NONE;
+  }
+
   Board::Tile& Board::GetTile(uint32_t x, uint32_t y)
   {
     if ( x >= m_dim || y >= m_dim )
@@ -158,7 +165,7 @@ namespace PuzzleGame
   {
     ++m_timeStamp;
     --m_timeUntilNext;
-    if ( m_timeUntilNext == 0 )
+    if ( m_timeUntilNext <= 0 )
     {
       CreatePiece(plLeft, plTop);
     }
@@ -223,6 +230,7 @@ namespace PuzzleGame
 
     // if any adjacent piece, select adjacent color to match with logo
     Tile retTile(TT_PIECE, m_timeStamp, m_diceColor());
+    retTile.SetLife( std::chrono::seconds(4) );
     if ( c>0 )
     {
       std::random_shuffle(adjs.begin(), adjs.begin()+c);
@@ -249,6 +257,6 @@ namespace PuzzleGame
 
   void Board::UpdateGUI()
   {
-    m_label->SetText( StringUtils::From((int)m_timeUntilNext) );
+    m_label->SetText( StringUtils::From(m_timeUntilNext) );
   }
 };
