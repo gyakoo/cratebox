@@ -13,15 +13,13 @@ namespace PuzzleGame
 
   void GameStatePlaying::OnEnter()
   {
-    m_board = std::make_shared<Board>(m_engine, BOARD_DIM_DEFAULT, 96, 96);
-    m_player = std::make_shared<Player>(m_engine, m_board);
+    m_board = std::make_shared<Board>(m_engine, BOARD_DIM_DEFAULT, TILE_DIM_DEFAULT, TILE_DIM_DEFAULT);
     //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
   }
 
   void GameStatePlaying::OnUpdate()
   {
     m_timer.Update();
-    m_player->Update();
     m_board->Update(m_player);
 
     m_board->Draw();
@@ -30,7 +28,6 @@ namespace PuzzleGame
 
   void GameStatePlaying::OnExit()
   {
-    m_player = nullptr;
     m_board = nullptr;
     m_timer.Reset();
   }
