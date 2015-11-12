@@ -3,11 +3,14 @@
 
 namespace PuzzleGame
 {
+  class Entity;
+  class Player; 
 
   class Board
   {
   public:
-    enum TileType { TT_NONE, TT_PIECE };
+    enum TileType { TT_NONE, TT_PIECE, TT_BLOCKED, TT_FILLED };
+    enum PieceType { PT_RED, PT_GREEN, PT_YELLOW, PT_BLUE };
     struct Tile 
     {
       Tile():m_type(TT_NONE){}
@@ -18,7 +21,13 @@ namespace PuzzleGame
       }
       bool IsNone() const {return m_type==TT_NONE;}
       bool IsPiece() const { return m_type==TT_PIECE;}
+      bool IsBlocked() const { return m_type==TT_BLOCKED; }
+      bool IsFilled() const { return m_type==TT_FILLED; }
       void SetLife(std::chrono::milliseconds ms) { m_life = m_totalLife = ms; }
+      void SetBlocked(){ m_type=TT_BLOCKED; }
+      void SetNone() { m_type = TT_NONE; }
+      void SetFilled(){ m_type = TT_FILLED; }
+      
       float GetLifeNormal() const 
       { 
         const float n = (float)m_life.count()/m_totalLife.count(); 
@@ -31,10 +40,11 @@ namespace PuzzleGame
       std::chrono::milliseconds m_life;
       std::chrono::milliseconds m_totalLife;
     };
+
     
   public:
     Board(std::shared_ptr<Engine> engine, uint32_t twidth, uint32_t theight, uint32_t dimension);
-    void Update();
+    void Update(std::shared_ptr<Player> player);
     void Draw();
     Tile& GetTile(uint32_t x, uint32_t y);
     Rect GetTileRect(uint32_t x, uint32_t y);
@@ -58,6 +68,7 @@ namespace PuzzleGame
   private:
     std::shared_ptr<Engine> m_engine;
     std::vector< Tile > m_tiles;
+    std::vector< std::shared_ptr<Entity> > m_entities;
     uint32_t m_dim;
     uint32_t m_tileWidth;
     uint32_t m_tileHeight;

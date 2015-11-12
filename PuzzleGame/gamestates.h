@@ -24,7 +24,7 @@ namespace PuzzleGame
     std::shared_ptr<FSMManager> m_fsm;
     std::shared_ptr<Engine> m_engine;
     std::shared_ptr<Board> m_board;
-    std::unique_ptr<Player> m_player;
+    std::shared_ptr<Player> m_player;
   };
 
 };

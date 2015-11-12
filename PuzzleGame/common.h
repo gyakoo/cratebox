@@ -29,7 +29,9 @@ namespace PuzzleGame
 
   enum PuzzleGameConstants
   {
-    BOARD_DIM_DEFAULT = 6
+    BOARD_DIM_DEFAULT = 6,
+    BOARD_MOVES_DEFAULT = 3,
+    TILE_LIFE_SEC_DEFAULT = 6
   };
 
   class StringUtils

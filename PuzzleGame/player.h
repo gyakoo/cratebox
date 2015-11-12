@@ -7,15 +7,19 @@ namespace PuzzleGame
   class Player : public IKeyListener
   {
   public:
+    enum LogoTileType { LTT_R=0, LTT_G, LTT_Y, LTT_B };
     Player(std::shared_ptr<Engine> engine, std::shared_ptr<Board> board);
     ~Player();
     void Update();
     void Draw();
-
+    uint32_t GetTop(){ return m_top; }
+    uint32_t GetLeft(){ return m_left; }
+    void GetPosOf(LogoTileType tileType, uint32_t& outX, uint32_t& outY);
     virtual void OnKeyDown(int scancode);
+    bool IsPiece(LogoTileType tileType, uint32_t x, uint32_t y); 
+    void BrokenPiece(LogoTileType tileType);
 
   private:
-    enum LogoTileType { LTT_R=0, LTT_G, LTT_Y, LTT_B };
     void Move(int dx, int dy);
     void RotateLeft();
     void RotateRight();

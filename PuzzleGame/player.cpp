@@ -139,4 +139,31 @@ namespace PuzzleGame
     std::rotate(m_logoTiles.rbegin(), m_logoTiles.rbegin() + 1, m_logoTiles.rend());
     m_board->OnPlayerAdvanced(m_left, m_top);
   }
+
+  void Player::GetPosOf(LogoTileType tileType, uint32_t& outX, uint32_t& outY)
+  {
+    outX = m_left;
+    outY = m_top;
+    std::array<std::pair<uint32_t,uint32_t>,4> offsets={ 
+      std::make_pair(0,0), std::make_pair(1,0), 
+      std::make_pair(1,1), std::make_pair(0,1) };
+    for ( auto i = 0; i < 4; ++i )
+    {
+      if ( m_logoTiles[i] == tileType )
+      {
+        outX += offsets[i].first;
+        outY += offsets[i].second;
+        break;
+      }
+    }
+  }
+
+  bool Player::IsPiece(LogoTileType tileType, uint32_t x, uint32_t y)
+  {
+    uint32_t px,py;
+    GetPosOf(tileType,px,py);
+    return x==px && y==py;
+  }
+
+
 };

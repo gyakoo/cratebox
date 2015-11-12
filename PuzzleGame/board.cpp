@@ -1,4 +1,5 @@
 #include <board.h>
+#include <entities.h>
 
 namespace PuzzleGame
 {
@@ -57,7 +58,7 @@ namespace PuzzleGame
 
 
   Board::Board(std::shared_ptr<Engine> engine, uint32_t dimension, uint32_t twidth, uint32_t theight)
-      : m_engine(engine), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(2)
+      : m_engine(engine), m_dim(dimension), m_timeStamp(0), m_timeUntilNext(BOARD_MOVES_DEFAULT)
       , m_tileWidth(twidth), m_tileHeight(theight)
   {
     if ( dimension <= 2 )
@@ -71,7 +72,7 @@ namespace PuzzleGame
     m_label = std::unique_ptr<Text>(new Text(m_engine->GetFont("data/OpenSans-Bold.ttf",24), "hey", Colors::YELLOW));
   }
   
-  void Board::Update()
+  void Board::Update(std::shared_ptr<Player> player)
   {
     auto elapsed = m_engine->GetTimerDelta();
     const auto& zeroms = std::chrono::milliseconds::zero();
@@ -88,6 +89,15 @@ namespace PuzzleGame
         }
       }
     }
+
+    for (auto it=m_entities.begin();it!=m_entities.end();)
+    {
+      (*it)->Update(elapsed, *this, *player.get());
+      if ( !(*it)->IsMarkedForRemove() )
+        ++it;
+      else
+        it=m_entities.erase(it);
+    }
   }
 
   void Board::Draw()
@@ -102,6 +112,11 @@ namespace PuzzleGame
     }
 
     m_label->Draw(10,10);
+    
+    for (auto& e: m_entities)
+    {
+      e->Draw(*m_engine.get(), *this);
+    }
   }
 
   void Board::DrawGrid()
@@ -125,12 +140,12 @@ namespace PuzzleGame
     Rect dr=r;
 
     dr.Translate(1,1);
-    dr.Deflate(43,43);
 
     switch ( t.m_type )
     {
       case TT_PIECE: 
       {
+        dr.Deflate(43,43);
         auto c=s_colors[ t.m_data ]; 
         m_engine->FillRect(dr, c); 
         dr.width = (int)(t.GetLifeNormal()*dr.width);
@@ -138,12 +153,18 @@ namespace PuzzleGame
         overColor.a = 100;
         m_engine->FillRect(dr, overColor); 
       }break;
+      
+      case TT_FILLED:
+        dr.Deflate(3,3);
+        m_engine->FillRect(dr, Colors::BLACK); 
+        break;
     }
   }
    
   void Board::OnPieceTimeUp(Tile& t, uint32_t x, uint32_t y)
   {
-    t.m_type = TT_NONE;
+    m_entities.push_back( std::make_shared<Chaser>(*this, x,y, static_cast<Player::LogoTileType>(t.m_data)) );
+    t.SetNone();
   }
 
   Board::Tile& Board::GetTile(uint32_t x, uint32_t y)
@@ -182,8 +203,8 @@ namespace PuzzleGame
     {
       std::random_shuffle( empties.begin(), empties.end() );
       auto rndPos = *empties.begin();
-      m_tiles[ rndPos.second*m_dim+rndPos.first ] = RandomTile( rndPos.first, rndPos.second );
-      m_timeUntilNext = 2;
+      GetTile(rndPos.first, rndPos.second) = RandomTile( rndPos.first, rndPos.second );
+      m_timeUntilNext = BOARD_MOVES_DEFAULT;
     }
     else
     {
@@ -230,7 +251,7 @@ namespace PuzzleGame
 
     // if any adjacent piece, select adjacent color to match with logo
     Tile retTile(TT_PIECE, m_timeStamp, m_diceColor());
-    retTile.SetLife( std::chrono::seconds(4) );
+    retTile.SetLife( std::chrono::seconds(TILE_LIFE_SEC_DEFAULT) );
     if ( c>0 )
     {
       std::random_shuffle(adjs.begin(), adjs.begin()+c);
@@ -246,7 +267,7 @@ namespace PuzzleGame
 
   void Board::MatchPiece(uint32_t plLeft, uint32_t plTop, uint32_t x, uint32_t y)
   {
-    m_tiles[y*m_dim+x].m_type = TT_NONE;
+    GetTile(x,y).SetFilled();
     auto empties = GetEmptyTileSlots(m_dim,m_dim);
     // no more pieces left
     if ( empties.size() == (m_dim*m_dim) )
@@ -259,4 +280,5 @@ namespace PuzzleGame
   {
     m_label->SetText( StringUtils::From(m_timeUntilNext) );
   }
+
 };

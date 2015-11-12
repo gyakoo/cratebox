@@ -1,5 +1,7 @@
 #include <gamestates.h>
 #include <stdarg.h>
+#include <board.h>
+#include <player.h>
 
 namespace PuzzleGame
 {
@@ -12,15 +14,15 @@ namespace PuzzleGame
   void GameStatePlaying::OnEnter()
   {
     m_board = std::make_shared<Board>(m_engine, BOARD_DIM_DEFAULT, 96, 96);
-    m_player = std::unique_ptr<Player>(new Player(m_engine, m_board));
+    m_player = std::make_shared<Player>(m_engine, m_board);
     //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
   }
 
   void GameStatePlaying::OnUpdate()
   {
     m_timer.Update();
-    m_board->Update();
     m_player->Update();
+    m_board->Update(m_player);
 
     m_board->Draw();
     m_player->Draw();
