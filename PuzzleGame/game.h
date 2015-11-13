@@ -2,7 +2,6 @@
 #include <common.h>
 #include <gametimer.h>
 #include <board.h>
-#include <player.h>
 #include <fsm.h>
 
 namespace PuzzleGame

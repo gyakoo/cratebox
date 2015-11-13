@@ -1,5 +1,4 @@
 #include <board.h>
-#include <entities.h>
 
 namespace PuzzleGame
 {
@@ -69,7 +68,7 @@ namespace PuzzleGame
     m_label = std::unique_ptr<Text>(new Text(m_engine->GetFont("data/OpenSans-Bold.ttf",24), "hey", Colors::YELLOW));
   }
   
-  void Board::Update(std::shared_ptr<Player> player)
+  void Board::Update()
   {
     auto elapsed = m_engine->GetTimerDelta();
     const auto& zeroms = std::chrono::milliseconds::zero();
@@ -105,7 +104,7 @@ namespace PuzzleGame
       m_engine->DrawLine( m_borderHoriz, y0, x1, y0, Colors::WHITE );
   }
 
-  std::shared_ptr<Tile> Board::GetTile(uint32_t x, uint32_t y)
+  std::shared_ptr<Board::Tile> Board::GetTile(uint32_t x, uint32_t y)
   {
     if ( x >= m_dim || y >= m_dim )
       throw std::exception("invalid tile coords");

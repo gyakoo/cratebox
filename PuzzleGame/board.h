@@ -3,9 +3,6 @@
 
 namespace PuzzleGame
 {
-  //class Entity;
-  class Player; 
-
   class Board
   {
   public:
@@ -17,7 +14,7 @@ namespace PuzzleGame
     
   public:
     Board(std::shared_ptr<Engine> engine, uint32_t twidth, uint32_t theight, uint32_t dimension);
-    void Update(std::shared_ptr<Player> player);
+    void Update();
     void Draw();
     std::shared_ptr<Tile> GetTile(uint32_t x, uint32_t y);
     Rect GetTileRect(uint32_t x, uint32_t y);

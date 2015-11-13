@@ -1,7 +1,6 @@
 #include <gamestates.h>
 #include <stdarg.h>
 #include <board.h>
-#include <player.h>
 
 namespace PuzzleGame
 {
@@ -20,10 +19,8 @@ namespace PuzzleGame
   void GameStatePlaying::OnUpdate()
   {
     m_timer.Update();
-    m_board->Update(m_player);
 
     m_board->Draw();
-    m_player->Draw();
   }
 
   void GameStatePlaying::OnExit()
