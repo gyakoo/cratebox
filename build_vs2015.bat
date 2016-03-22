@@ -15,10 +15,14 @@ premake5 --file=premake5.lua vs2015
 
 :end
 
-xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2015\bin\x32\debug\ /Y
-xcopy SDL2-2.0.0\lib\x86\*.dll buildvs2015\bin\x32\release\ /Y
+xcopy SDL2\SDL2-2.0.4\lib\x64\*.dll buildvs2015\bin\x64\debug\ /Y
+xcopy SDL2\SDL2-2.0.4\lib\x64\*.dll buildvs2015\bin\x64\release\ /Y
 
-xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2015\bin\x64\debug\ /Y
-xcopy SDL2-2.0.0\lib\x64\*.dll buildvs2015\bin\x64\release\ /Y
+xcopy SDL2\SDL2_image-2.0.1\lib\x64\*.dll buildvs2015\bin\x64\debug\ /Y
+xcopy SDL2\SDL2_image-2.0.1\lib\x64\*.dll buildvs2015\bin\x64\release\ /Y
+
+xcopy SDL2\SDL2_ttf-2.0.14\lib\x64\*.dll buildvs2015\bin\x64\debug\ /Y
+xcopy SDL2\SDL2_ttf-2.0.14\lib\x64\*.dll buildvs2015\bin\x64\release\ /Y
+
 echo.
 pause
