@@ -1,8 +1,7 @@
 #include <gamestates.h>
 #include <stdarg.h>
-#include <board.h>
 
-namespace PuzzleGame
+namespace Game
 {
 
   GameStatePlaying::GameStatePlaying(std::shared_ptr<FSMManager> fsm, std::shared_ptr<Engine> engine)
@@ -12,20 +11,15 @@ namespace PuzzleGame
 
   void GameStatePlaying::OnEnter()
   {
-    m_board = std::make_shared<Board>(m_engine, BOARD_DIM_DEFAULT, TILE_DIM_DEFAULT, TILE_DIM_DEFAULT);
-    //m_timer.AddCallback( std::chrono::milliseconds(2500), std::bind(&GameStatePlaying::OnCreatePiece, this) );
   }
 
   void GameStatePlaying::OnUpdate()
   {
     m_timer.Update();
-
-    m_board->Draw();
   }
 
   void GameStatePlaying::OnExit()
   {
-    m_board = nullptr;
     m_timer.Reset();
   }
 

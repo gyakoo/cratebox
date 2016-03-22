@@ -1,7 +1,7 @@
 -- WORK IN PROGRESS NOT USE --
 local action = _ACTION or ""
 local build="build"..action
-solution "mspuzzle"
+solution "game"
 	location ( build )
 	configurations { "Debug", "Release" }
 	platforms {"x64"}

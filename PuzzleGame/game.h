@@ -1,25 +1,25 @@
 #pragma once
 #include <common.h>
 #include <gametimer.h>
-#include <board.h>
 #include <fsm.h>
 
-namespace PuzzleGame
+namespace Game
 {
 
-  class Game : public IKeyListener
+  class GameApp : public IKeyListener
   {
   public:
-    Game(std::shared_ptr<Engine> engine);
-    ~Game();
+    GameApp(std::shared_ptr<Engine> engine);
+    ~GameApp();
 
     void MainLoop();
     virtual void OnKeyDown(int code);
     std::shared_ptr<Engine> GetEngine(){ return m_engine; }
 
   private:
-    FSMManager::StateHandle m_hStartingState;
     std::shared_ptr<Engine> m_engine;
+
+    FSMManager::StateHandle m_hStartingState;
     std::shared_ptr<FSMManager> m_fsm;
   };
 

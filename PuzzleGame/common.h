@@ -24,7 +24,7 @@
 #include <SDL_keyboard.h>
 
 
-namespace PuzzleGame
+namespace Game
 {
 
   enum PuzzleGameConstants

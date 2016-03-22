@@ -1,6 +1,6 @@
 #include <common.h>
 
-namespace PuzzleGame
+namespace Game
 {
 
 Engine::Engine(uint32_t width, uint32_t height, const std::string& title, bool fullscreen )

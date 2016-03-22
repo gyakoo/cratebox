@@ -1,6 +1,6 @@
 #include <fsm.h>
 
-namespace PuzzleGame
+namespace Game
 {
   template<typename SHT, typename ET>
   FSMTransition<SHT,ET>::FSMTransition( SHT curSt, ET event, SHT nextSt )

@@ -1,7 +1,7 @@
 #pragma once
 #include <common.h>
 
-namespace PuzzleGame
+namespace Game
 {
   class GameTimer
   {

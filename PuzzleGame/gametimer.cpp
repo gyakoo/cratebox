@@ -1,6 +1,6 @@
 #include <gametimer.h>
 
-namespace PuzzleGame
+namespace Game
 {
 
 GameTimer::GameTimer(std::shared_ptr<Engine> engine)
