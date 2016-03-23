@@ -1,5 +1,5 @@
-#include <game.h>
-#include <gamestates.h>
+#include <base/game.h>
+#include <states/gamestates.h>
 
 namespace Game
 {

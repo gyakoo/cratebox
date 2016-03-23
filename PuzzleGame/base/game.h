@@ -1,7 +1,7 @@
 #pragma once
-#include <common.h>
-#include <gametimer.h>
-#include <fsm.h>
+#include <base/common.h>
+#include <base/gametimer.h>
+#include <base/fsm.h>
 
 namespace Game
 {

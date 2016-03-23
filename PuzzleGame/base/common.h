@@ -22,7 +22,7 @@
 #include <SDL_image.h>
 #include <SDL_ttf.h>
 #include <SDL_keyboard.h>
-
+#include <SDL2_gfxPrimitives.h>
 
 namespace Game
 {
@@ -126,6 +126,7 @@ namespace Game
     void FillRect( const Rect& rect, const Color& color );
     void DrawRect( const Rect& rect, const Color& color );
     void DrawLine( uint32_t x0, uint32_t y0, uint32_t x1, uint32_t y1, const Color& color );
+    void DrawCircle(uint32_t x, uint32_t y, uint32_t radius, const Color& color);
 
     uint32_t GetWidth();
     uint32_t GetHeight();

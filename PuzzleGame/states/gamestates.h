@@ -1,7 +1,8 @@
 #pragma once
-#include <common.h>
-#include <game.h>
-#include <fsm.h>
+#include <base/common.h>
+#include <base/game.h>
+#include <base/fsm.h>
+#include <Box2D/Box2D.h>
 
 namespace Game
 {
@@ -23,6 +24,9 @@ namespace Game
     GameTimer m_timer;
     std::shared_ptr<FSMManager> m_fsm;
     std::shared_ptr<Engine> m_engine;
+    std::unique_ptr<b2World> m_physics;
+
+    std::array<b2Body*, 50> m_balls;
   };
 
 };

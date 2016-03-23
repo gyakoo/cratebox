@@ -1,5 +1,5 @@
-#include <common.h>
-#include <game.h>
+#include <base/common.h>
+#include <base/game.h>
 
 
 using namespace Game;

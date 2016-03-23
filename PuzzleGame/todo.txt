@@ -1,0 +1,26 @@
+
+IDEAS DISEÑO
+============
+- De mundo en mundo buscando la Tierra
+- Hay una historia, elementos ocultos
+- No es nivel tras nivel
+- Puzzles sencillos
+- N++ game style
+- No tienes que ser violento, aunque puedes
+- Cuando estás en modo Character, puedes RPG enemigos
+- Coleccionar cosas, por fotos?
+- Movimiento del calamar en agua (diagonal solo)
+
+HITO 1: Base, prototype
+=======================
+	- Drawing game elements
+	- Finding good color schema
+	- Basic component based design
+	- Box2D physics helper
+	- Gameplay jugable		
+		- Movimiento de la nave		
+		- Movimiento de Trevize
+		- Movimiento del Robola
+	- Crear y cargar niveles
+	- 
+		

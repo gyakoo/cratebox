@@ -11,7 +11,7 @@ solution "game"
 		kind "WindowedApp"
         flags {"WinMain"}
 		language "C++"
-		files { "PuzzleGame/**.cpp", "PuzzleGame/**.h", "SDL2/**.h", "SDL2/**.c", "Box2D/**.h"}
+		files { "PuzzleGame/**.cpp", "PuzzleGame/**.h", "SDL2/**.h", "SDL2/**.c", "Box2D/**.h"}		
 		excludes { "SDL2/SDL2_gfx-1.0.1/test/*.*"}
 		includedirs { "./", "PuzzleGame/", "SDL2/SDL2-2.0.4/include/", "SDL2/SDL2_gfx-1.0.1/", "SDL2/SDL2_image-2.0.1/include/", "SDL2/SDL2_ttf-2.0.14/include/" }		
 	 	debugdir "./PuzzleGame/" 

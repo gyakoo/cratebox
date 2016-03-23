@@ -1,4 +1,4 @@
-#include <gametimer.h>
+#include <base/gametimer.h>
 
 namespace Game
 {
@@ -15,7 +15,7 @@ uint32_t GameTimer::AddCallback( std::chrono::milliseconds period, std::function
   cb.m_period = period;
   cb.m_periodFunc = func;
   m_callbacks.push_back(cb);
-  return m_callbacks.size()-1;
+  return (uint32_t)m_callbacks.size()-1;
 }
 
 void GameTimer::RemoveCallback(uint32_t cbIndex)
