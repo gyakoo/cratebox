@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClInclude Include="engine.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="file\file.h">
+      <Filter>file</Filter>
+    </ClInclude>
+    <ClInclude Include="app\app.h">
+      <Filter>app</Filter>
+    </ClInclude>
+    <ClInclude Include="gfx\renderer.h">
+      <Filter>gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="gfx\renderertypes.h">
+      <Filter>gfx</Filter>
+    </ClInclude>
+    <ClInclude Include="input\input.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="input\inputtypes.h">
+      <Filter>input</Filter>
+    </ClInclude>
+    <ClInclude Include="job\jobmgr.h">
+      <Filter>job</Filter>
+    </ClInclude>
+    <ClInclude Include="reflect\reflect.h">
+      <Filter>reflect</Filter>
+    </ClInclude>
+    <ClInclude Include="engineinc.h" />
+    <ClInclude Include="sound\soundmgr.h">
+      <Filter>sound</Filter>
+    </ClInclude>
+    <ClInclude Include="dynlib\dynlib.h">
+      <Filter>dynlib</Filter>
+    </ClInclude>
+    <ClInclude Include="net\netmgr.h">
+      <Filter>net</Filter>
+    </ClInclude>
+    <ClInclude Include="common\variant.h">
+      <Filter>common\variant</Filter>
+    </ClInclude>
+    <ClInclude Include="common\callback.h">
+      <Filter>common\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="common\strutil.h">
+      <Filter>common\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="common\math.h">
+      <Filter>common\math</Filter>
+    </ClInclude>
+    <ClInclude Include="common\clock.h">
+      <Filter>common\timing</Filter>
+    </ClInclude>
+    <ClInclude Include="common\resmgr.h">
+      <Filter>common\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="common\resmgr.inl">
+      <Filter>common\misc</Filter>
+    </ClInclude>
+    <ClInclude Include="common\parser.h">
+      <Filter>common\parser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\thirdparty\gason\gason.h">
+      <Filter>common\parser\gason</Filter>
+    </ClInclude>
+    <ClInclude Include="common\timer.h">
+      <Filter>common\timing</Filter>
+    </ClInclude>
+    <ClInclude Include="physics\physics2d.h">
+      <Filter>physics\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="log\logmgr.h">
+      <Filter>log</Filter>
+    </ClInclude>
+    <ClInclude Include="plat\platselector.h">
+      <Filter>_plat.win</Filter>
+    </ClInclude>
+    <ClInclude Include="enginedefs.h" />
+    <ClInclude Include="common\mem.h">
+      <Filter>common\mem</Filter>
+    </ClInclude>
+    <ClInclude Include="common\bits.h">
+      <Filter>common\misc</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="file\file.cpp">
+      <Filter>file</Filter>
+    </ClCompile>
+    <ClCompile Include="engine.cpp" />
+    <ClCompile Include="app\app.cpp">
+      <Filter>app</Filter>
+    </ClCompile>
+    <ClCompile Include="gfx\renderer.cpp">
+      <Filter>gfx</Filter>
+    </ClCompile>
+    <ClCompile Include="input\input.cpp">
+      <Filter>input</Filter>
+    </ClCompile>
+    <ClCompile Include="job\jobmgr.cpp">
+      <Filter>job</Filter>
+    </ClCompile>
+    <ClCompile Include="reflect\reflect.cpp">
+      <Filter>reflect</Filter>
+    </ClCompile>
+    <ClCompile Include="sound\soundmgr.cpp">
+      <Filter>sound</Filter>
+    </ClCompile>
+    <ClCompile Include="dynlib\dynlib.cpp">
+      <Filter>dynlib</Filter>
+    </ClCompile>
+    <ClCompile Include="net\netmgr.cpp">
+      <Filter>net</Filter>
+    </ClCompile>
+    <ClCompile Include="common\variant.cpp">
+      <Filter>common\variant</Filter>
+    </ClCompile>
+    <ClCompile Include="common\callback.cpp">
+      <Filter>common\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="common\strutil.cpp">
+      <Filter>common\misc</Filter>
+    </ClCompile>
+    <ClCompile Include="common\math.cpp">
+      <Filter>common\math</Filter>
+    </ClCompile>
+    <ClCompile Include="common\clock.cpp">
+      <Filter>common\timing</Filter>
+    </ClCompile>
+    <ClCompile Include="common\parser.cpp">
+      <Filter>common\parser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\thirdparty\gason\gason.cpp">
+      <Filter>common\parser\gason</Filter>
+    </ClCompile>
+    <ClCompile Include="common\timer.cpp">
+      <Filter>common\timing</Filter>
+    </ClCompile>
+    <ClCompile Include="physics\physics2d.cpp">
+      <Filter>physics\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="log\logmgr.cpp">
+      <Filter>log</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="file">
+      <UniqueIdentifier>{491b4b1b-36ca-4edc-86af-e6074c24e103}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="app">
+      <UniqueIdentifier>{fe807400-27a8-4fb3-9566-7fba1ea3502b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common">
+      <UniqueIdentifier>{bbacd287-d48a-4b9e-be5d-357faedd9bf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="gfx">
+      <UniqueIdentifier>{4d822aa0-d06f-42c0-85ba-adee294d1a93}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="input">
+      <UniqueIdentifier>{620f16dc-6f89-4d50-8f51-eba2b9cebe68}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="job">
+      <UniqueIdentifier>{6e4755d3-b6ef-4671-9749-00f3e849c9f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="reflect">
+      <UniqueIdentifier>{29c945b2-a7e8-4ea4-89f3-398155a411f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="sound">
+      <UniqueIdentifier>{5f573b8a-fb38-45f2-83df-0536701db805}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="dynlib">
+      <UniqueIdentifier>{d7b7412c-be32-4646-ba4a-f650b02c8fa1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="net">
+      <UniqueIdentifier>{1c664571-74b4-4c2e-b477-d9d825433e9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\variant">
+      <UniqueIdentifier>{bcbf3e2b-7982-4655-acfa-c9da5a4529ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\misc">
+      <UniqueIdentifier>{121538c1-5379-49b8-979d-6a17bc10259b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\math">
+      <UniqueIdentifier>{5c4d8e93-8ba0-4af9-9cd1-99c2a55dd5c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\timing">
+      <UniqueIdentifier>{26f5d0b0-330e-4aee-b767-947b0b0a6e19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\parser">
+      <UniqueIdentifier>{23953aac-e165-495f-b6d6-535e75ec4953}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="doc">
+      <UniqueIdentifier>{e271029d-eaa9-4878-959f-444a89adb3dd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\parser\gason">
+      <UniqueIdentifier>{78e0eeaf-6bc1-47fd-a771-34d668468fb6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics">
+      <UniqueIdentifier>{cf73d0ea-f74d-4d6b-a515-16a3577ba332}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="physics\2d">
+      <UniqueIdentifier>{f936b501-972b-4abc-9c90-5c059ef22908}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="log">
+      <UniqueIdentifier>{312c35ba-0022-447b-8885-38260de51501}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_plat.win">
+      <UniqueIdentifier>{e3b22663-b625-4be2-af84-27eb4521c45a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="_data">
+      <UniqueIdentifier>{92dfadda-4bc7-4687-a50e-d81a418704ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="common\mem">
+      <UniqueIdentifier>{7e880514-316b-41e0-8219-63f4c6eaba35}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="common\math.inl">
+      <Filter>common\math</Filter>
+    </None>
+    <None Include="..\README.md">
+      <Filter>doc</Filter>
+    </None>
+    <None Include="plat\win\app.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\atomic.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\clock.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\dynlib.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\engine.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\file.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\input.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\logmgr.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\netmgr.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\physics2d.box2d.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\soundmgr.fmod.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\timer.win.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="plat\win\renderer.d3d11.inl">
+      <Filter>_plat.win</Filter>
+    </None>
+    <None Include="common\mem.inl">
+      <Filter>common\mem</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\data\base\Shape.fx">
+      <Filter>_data</Filter>
+    </FxCompile>
+    <FxCompile Include="..\data\base\ScreenQuad.fx">
+      <Filter>_data</Filter>
+    </FxCompile>
+  </ItemGroup>
+</Project>

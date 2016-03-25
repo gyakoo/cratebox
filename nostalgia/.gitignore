@@ -1,0 +1,15 @@
+/bin/Debug
+/bin/Release
+/engine/*.user
+/game/*.user
+/nostalgia.opensdf
+/nostalgia.sdf
+/nostalgia.v11.suo
+/ipch
+/engine/x64/Debug
+/textool/bin/Debug
+/textool/obj/Debug
+/textool/obj/Release
+/textool/bin/Release
+/data/*.log
+/bin/obj

@@ -1,0 +1,30 @@
+{
+  "return" : "texinfo",
+  
+  "fabrics" : [
+    { "name" : "pana", "path" : "textures/pana.png" },
+    { "name" : "vaquera", "path" : "textures/vaquera.png" },
+    { "name" : "seda", "path" : "textures/seda.png" }
+  ],
+  
+  "stamps" : {    
+    "presets" : [ "checkboard", "fractal0", "espirales", "lunares", "rayas", "rombos" ],
+    "images" : [
+      "textures/stamps/stamp0.png",
+      "textures/stamps/stamp1.png",
+      "textures/stamps/margarita.png", 
+      "textures/stamps/toy.png",
+      "textures/stamps/rosa.png"
+    ]
+  },
+  
+  "filters" : [
+    { "name" : "gaussian", "properties" : [] },
+    { "name" : "dirty", "properties" : [] }
+    { "name" : "crystalize", "properties" : [] }    
+  ],
+  
+  "layers" : {
+    "operators" : [ "normal", "dissolve", "darken", "multiply", "color burn", "linear burn" ]
+  }  
+}

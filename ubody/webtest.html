@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+    <title>Simple use of WebSocket</title>
+    <script type="text/javascript">
+    //<![CDATA[
+
+	var socket=null;
+	function addMessage(msg)
+	{
+		invocationHistoryText = document.createTextNode(msg);
+		var textDiv = document.getElementById("textDiv");
+		textDiv.appendChild(invocationHistoryText);
+		textDiv.appendChild(document.createElement("br"));
+	}
+	
+    function connectWs() 
+	{
+        try 
+		{
+            socket = new WebSocket("ws://127.0.0.1:8080/some");
+            socket.onopen = function () 
+			{
+                addMessage("ws socket open");
+				addMessage("ws binaryType is " + socket.binaryType);
+			}
+
+            socket.onmessage = function (msg) 
+			{
+                addMessage("ws received msg:" + msg);
+            }
+			
+			socket.onerror = function (obj)
+			{
+				addMessage("ws error: ");
+				console.log(obj);
+			}
+
+            socket.onclose = function () 
+			{
+                addMessage("ws closed");
+            }
+        }
+        catch (exception) 
+		{
+            alert("Exception: " + exception);
+        }
+    }
+	
+	function sendWsData()
+	{
+		if (socket != null && socket.readyState==1)
+		{
+			socket.send( "hello world" );
+		}
+	}
+
+    //]]>
+    
+    
+    </script>
+</head>
+<body>
+    <form id="controlsToInvoke" action="">
+        <p>
+		<input type="button" value="Connect" onclick="connectWs()" />
+        <input type="button" value="Send data" onclick="sendWsData()" />
+		</p>    
+		
+    </form>
+
+    <div id="textDiv">
+        Here we are getting the results:<br />        
+    </div>
+</body>
+</html>

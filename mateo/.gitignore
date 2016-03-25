@@ -1,0 +1,8 @@
+game/game.vcxproj.user
+.vs
+.vs/mateo/v14/.suo
+mateo.sdf
+bin/
+ipch/
+mateo.VC.opendb
+*.suo

@@ -1,0 +1,93 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resources">
+      <UniqueIdentifier>dc5a8eac-9227-47b0-bac0-e64d1824df72</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tga;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Graphics">
+      <UniqueIdentifier>{e89eb6fe-81d0-4aaf-b678-00c4706728a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Base">
+      <UniqueIdentifier>{d75fbddc-86bc-4697-950b-a257424314d7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Pch.cpp" />
+    <ClCompile Include="DxDevice.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderPipeline.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="TestRenderPipeline.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Base.cpp">
+      <Filter>base</Filter>
+    </ClCompile>
+    <ClCompile Include="DxDeviceFactory.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DxHelper.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DxDeviceContext.cpp">
+      <Filter>graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="DxTypes.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Graphics</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Pch.h" />
+    <ClInclude Include="DxDevice.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DxHelper.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderPipeline.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="TestRenderPipeline.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Base.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceId.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="DxDeviceFactory.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="DxDeviceContext.h">
+      <Filter>graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="StepTimer.h">
+      <Filter>base</Filter>
+    </ClInclude>
+    <ClInclude Include="DxTypes.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Graphics</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\DirectXCompiler\x64\d3dcompiler_47.dll">
+      <Filter>Graphics</Filter>
+    </None>
+    <None Include="..\DirectXCompiler\x86\d3dcompiler_47.dll">
+      <Filter>Graphics</Filter>
+    </None>
+    <None Include="Scene.fbx" />
+  </ItemGroup>
+</Project>

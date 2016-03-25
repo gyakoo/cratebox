@@ -1,0 +1,24 @@
+
+HIGH
+====
+* Setting the texture/samplestate constant? now it stores in memory in ShaderConstant::resNumber, but now what?
+* Parallel vectors for DxFactory. Since there's Async tasks, one can be modifying a vector while other too.
+
+MEDIUM
+======
+* Inside DxDeviceFactory, implement search for DXSTATE_RELEASED slots in vectors before push_back a new one.
+* Inside DxDeviceFactory, implement the hash for some DxResources and look for it before creating a new one.
+* Change first letter to uppercase of methods
+* Integrate VLD
+
+LOW
+===
+* Make a tool to reflect shader byteco
+des offline and save the .cso + reflection in a single file that is loaded on runtime.
+  - it will remove the need for the compiler dlls in the package as well as their memory footprint when loaded.
+
+
+REFERENCES
+===========
+
+http://seanmiddleditch.com/direct3d-11-debug-api-tricks/  (dx11 DEBUGGING TECHNIQUES)

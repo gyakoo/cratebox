@@ -1,0 +1,31 @@
+{
+	"gyFileSystem" : 
+	{
+		"paths" : [ "../data/", "../../data/" ],
+		"writingpath" : "../data/"
+	},
+
+	"gyApp":
+	{
+		"window" : 
+		{
+			"title" : "Sample test level",
+			"width" : 1024,
+			"height": 768,
+			"windowed" : true
+		}
+	},
+
+	"gyPhysicsManager2D":
+	{
+		"gravX" : 0.0,
+		"gravY" : -10.0
+	},
+    
+    "gyLogManager" :
+    {
+        "loggers" : [ { "type":0, "filename" : "../data/nostalgia.log", "format" : "text" } ]
+    },
+
+	"appclass" : "gyDefaultApp"
+}

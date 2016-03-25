@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="game.cpp" />
+    <ClCompile Include="gamePCH.cpp" />
+    <ClCompile Include="sampletest0.cpp" />
+    <ClCompile Include="playlevel.cpp" />
+    <ClCompile Include="textool.cpp" />
+    <ClCompile Include="leveleditor.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="gamePCH.h" />
+  </ItemGroup>
+</Project>

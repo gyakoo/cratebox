@@ -1,0 +1,57 @@
+{
+  "command" : "generate",
+  
+  "resultnode" : 3,
+  
+  "nodes" : [
+    {
+      "id" : 0,
+      "type" : "preset",
+      "params" : { },      
+    },
+    
+    {
+      "id" : 1,
+      "type" : "texture",
+      "params" : {}
+    },
+    
+    {
+      "id" : 2,
+      "type" : "operator",
+      "subtype" : "normal",
+      "params" : { "opacity" : 50 }
+    },
+    
+    {
+      "id" : 3,
+      "type" : "operator",
+      "subtype": "filter",
+      "params" : { }
+    }
+  ],
+  
+  "links" : [
+    
+    {
+      "start" : { "id" : 0, "channel" : "color" },
+      "end"  : { "id" : 2, "channel" : "color" }
+    },
+    
+    {
+      "start" : { "id" : 1, "channel" : "color" },
+      "end": { "id" : 2, "channel" : "color" }
+    },
+    
+    {
+      "start" : { "id" : 2, "channel" : "color" },
+      "end": {  "id" :  3, "channel" : "color"}
+    }
+  ],
+  
+
+  "_comments" : [
+    "Node types are: preset|texture|operator",
+    "Subtypes of operator are: filter|normal|dissolve|darken|multiply|...",
+  ]   
+}

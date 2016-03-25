@@ -1,0 +1,4 @@
+vs2015/
+*.ilk
+bin/debug/Ogre.log
+bin/debug/OgreMain_d.pdb
